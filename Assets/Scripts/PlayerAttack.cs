@@ -13,6 +13,7 @@ public class PlayerAttack : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        //get animator to be able to change animation and playermovement to see when its still and can attack 
         anim = GetComponent < Animator>();
         playerMovement = GetComponent<PlayerMovement>();
 
@@ -27,13 +28,24 @@ public class PlayerAttack : MonoBehaviour
         cooldownTimer += Time.deltaTime;
    
     }
+    //uses firePoint as base for starting the fireball and gives fireball same direction as player
     private void Attack()
     {
         anim.SetTrigger("attack");
         cooldownTimer = 0;
 
-        fireball[0].transform.position = firePoint.position;
-        fireball[0].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+        fireball[FindFireball()].transform.position = firePoint.position;
+        fireball[FindFireball()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
 
+    }
+    //find the first non active fireball (that hasn't been shot) 
+    private int FindFireball()
+    {
+        for(int i=0; i < fireball.Length; i++)
+        {
+            if (!fireball[i].activeInHierarchy)
+                return i;
+        }
+        return 0;
     }
 }

@@ -5,10 +5,12 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField]private float speed;
+    [SerializeField]private float duration;
     private bool hit;
     private BoxCollider2D boxCollider;
     private Animator anim;
     private float direction;
+    private float lifeTime; //so a fireball doesnt get lost if stuck somewhere 
     // Start is called before the first frame update
     void Awake()
     {
@@ -20,10 +22,17 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if it hits we dont do anything otherwise it keeps moving 
         if (hit) return;
         float movementSpeed = speed * Time.deltaTime*direction;
         transform.Translate(movementSpeed, 0, 0);
+
+        //increase the time a fireball has been active and deactivates them
+        lifeTime += Time.deltaTime;
+        if (lifeTime > duration)
+            gameObject.SetActive(false);
     }
+    //if it hits something it explodes 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         hit = true;
@@ -31,7 +40,8 @@ public class Projectile : MonoBehaviour
         anim.SetTrigger("explosion");
     }
     public void SetDirection(float _direction)
-    {       
+    {
+        lifeTime = 0; // when we set direction(so shoot) the lifetime is 0
         direction = _direction;
         gameObject.SetActive(true);
         hit = false;
@@ -41,7 +51,7 @@ public class Projectile : MonoBehaviour
             localScaleX = -localScaleX;
         transform.localScale = new Vector3(localScaleX, transform.localScale.y, transform.localScale.z);
     }
-    private void Deactivate()
+    public void Deactivate()
     {
         gameObject.SetActive(false);
     }
