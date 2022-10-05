@@ -239,10 +239,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  hit: 0
-  boxCollider: {fileID: 0}
-  anim: {fileID: 0}
-  direction: 0
 --- !u!212 &57720611
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -292,7 +288,7 @@ SpriteRenderer:
   m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &148754613
@@ -411,10 +407,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  hit: 0
-  boxCollider: {fileID: 0}
-  anim: {fileID: 0}
-  direction: 0
 --- !u!212 &148754619
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -464,7 +456,7 @@ SpriteRenderer:
   m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &459229682
@@ -583,10 +575,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  hit: 0
-  boxCollider: {fileID: 0}
-  anim: {fileID: 0}
-  direction: 0
 --- !u!212 &459229688
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -636,7 +624,7 @@ SpriteRenderer:
   m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &500270547
@@ -755,10 +743,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  hit: 0
-  boxCollider: {fileID: 0}
-  anim: {fileID: 0}
-  direction: 0
 --- !u!212 &500270553
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -808,7 +792,7 @@ SpriteRenderer:
   m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &519420028
@@ -822,6 +806,8 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420034}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -895,6 +881,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa65a59dcbe499cfb2ddbed01e4b0db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snappy: 0
+  forceMultiplier: 1000
+  player: {fileID: 1996781594}
+--- !u!50 &519420034
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 10
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &778181427
 GameObject:
   m_ObjectHideFlags: 0
@@ -983,8 +1005,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 0.58, y: 0.58}
+    newSize: {x: 0.58, y: 0.58}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -1033,15 +1055,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 7de0a24f7ac1f13458872742587fe81f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &780109067
@@ -1052,7 +1074,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 780109063}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.13, y: 1.83, z: 0}
+  m_LocalPosition: {x: -7, y: 0, z: 0}
   m_LocalScale: {x: 0.591602, y: 5.601095, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1175,10 +1197,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  hit: 0
-  boxCollider: {fileID: 0}
-  anim: {fileID: 0}
-  direction: 0
 --- !u!212 &923780532
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1228,7 +1246,7 @@ SpriteRenderer:
   m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1105197030
@@ -1302,7 +1320,7 @@ SpriteRenderer:
   m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1105197032
@@ -1333,10 +1351,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  hit: 0
-  boxCollider: {fileID: 0}
-  anim: {fileID: 0}
-  direction: 0
 --- !u!95 &1105197034
 Animator:
   serializedVersion: 4
@@ -1417,10 +1431,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  hit: 0
-  boxCollider: {fileID: 0}
-  anim: {fileID: 0}
-  direction: 0
 --- !u!1 &1243296069
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,10 +1547,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  hit: 0
-  boxCollider: {fileID: 0}
-  anim: {fileID: 0}
-  direction: 0
 --- !u!212 &1243296075
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1590,7 +1596,7 @@ SpriteRenderer:
   m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1303083467
@@ -1650,8 +1656,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 0.58, y: 0.58}
+    newSize: {x: 0.58, y: 0.58}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -1700,15 +1706,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 7de0a24f7ac1f13458872742587fe81f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1303083471
@@ -1719,7 +1725,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1303083467}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2333, y: -0.7185, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 15.091888, y: 0.47441983, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1781,10 +1787,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  hit: 0
-  boxCollider: {fileID: 0}
-  anim: {fileID: 0}
-  direction: 0
 --- !u!1 &1875342801
 GameObject:
   m_ObjectHideFlags: 0
@@ -1901,10 +1903,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  hit: 0
-  boxCollider: {fileID: 0}
-  anim: {fileID: 0}
-  direction: 0
 --- !u!212 &1875342807
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1954,7 +1952,7 @@ SpriteRenderer:
   m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1996781592
@@ -2028,7 +2026,7 @@ SpriteRenderer:
   m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1996781594
@@ -2039,7 +2037,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1996781592}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0126, y: -0.0375, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.9832, y: 1.1008, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2128,15 +2126,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   jumpForce: 3
-  body: {fileID: 0}
-  anim: {fileID: 0}
-  boxCollider: {fileID: 0}
   groundLayer:
+    serializedVersion: 2
     m_Bits: 64
   wallLayer:
+    serializedVersion: 2
     m_Bits: 128
-  wallJumpCooldown: 0
-  horizontalInput: 0
 --- !u!114 &1996781599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2162,9 +2157,6 @@ MonoBehaviour:
   - {fileID: 2131959241}
   - {fileID: 2022873379}
   - {fileID: 923780526}
-  anim: {fileID: 0}
-  playerMovement: {fileID: 0}
-  cooldownTimer: Infinity
 --- !u!1 &2022873379
 GameObject:
   m_ObjectHideFlags: 0
@@ -2281,10 +2273,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  hit: 0
-  boxCollider: {fileID: 0}
-  anim: {fileID: 0}
-  direction: 0
 --- !u!212 &2022873385
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2334,7 +2322,7 @@ SpriteRenderer:
   m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2131959241
@@ -2453,10 +2441,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  hit: 0
-  boxCollider: {fileID: 0}
-  anim: {fileID: 0}
-  direction: 0
 --- !u!212 &2131959247
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2506,6 +2490,6 @@ SpriteRenderer:
   m_Size: {x: 0.58, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
