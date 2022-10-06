@@ -1,16 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField]private float speed;
-    [SerializeField]private float duration;
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float timeToLive = 5f; // The time till the projectile is destroyed in seconds
     private bool hit;
     private BoxCollider2D boxCollider;
     private Animator anim;
     private float direction;
-    private float lifeTime; //so a fireball doesnt get lost if stuck somewhere 
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,11 +26,6 @@ public class Projectile : MonoBehaviour
         if (hit) return;
         float movementSpeed = speed * Time.deltaTime*direction;
         transform.Translate(movementSpeed, 0, 0);
-
-        //increase the time a fireball has been active and deactivates them
-        lifeTime += Time.deltaTime;
-        if (lifeTime > duration)
-            gameObject.SetActive(false);
     }
     //if it hits something it explodes 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,7 +36,6 @@ public class Projectile : MonoBehaviour
     }
     public void SetDirection(float _direction)
     {
-        lifeTime = 0; // when we set direction(so shoot) the lifetime is 0
         direction = _direction;
         gameObject.SetActive(true);
         hit = false;
@@ -51,8 +45,21 @@ public class Projectile : MonoBehaviour
             localScaleX = -localScaleX;
         transform.localScale = new Vector3(localScaleX, transform.localScale.y, transform.localScale.z);
     }
+
     public void Deactivate()
     {
         gameObject.SetActive(false);
+    }
+    
+    private void OnEnable()
+    {
+        StartCoroutine(DestroyAfterSeconds(timeToLive));
+    }
+    
+    
+    private IEnumerator DestroyAfterSeconds(float value)
+    {
+        yield return new WaitForSeconds(value); // Wait for [value] seconds without blocking the current thread
+        Deactivate();
     }
 }

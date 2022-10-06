@@ -6,7 +6,6 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private float attackCooldown;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private GameObject[] fireball;
     private Animator anim;
     private PlayerMovement playerMovement;
     private float cooldownTimer= Mathf.Infinity;
@@ -34,18 +33,8 @@ public class PlayerAttack : MonoBehaviour
         anim.SetTrigger("attack");
         cooldownTimer = 0;
 
-        fireball[FindFireball()].transform.position = firePoint.position;
-        fireball[FindFireball()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
-
-    }
-    //find the first non active fireball (that hasn't been shot) 
-    private int FindFireball()
-    {
-        for(int i=0; i < fireball.Length; i++)
-        {
-            if (!fireball[i].activeInHierarchy)
-                return i;
-        }
-        return 0;
+        var currentFireball = ObjectPoolManager.Instance.GetPooledObject();
+        currentFireball.transform.position = firePoint.position;
+        currentFireball.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
     }
 }
