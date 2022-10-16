@@ -47,4 +47,30 @@ public class ObjectPoolManager : MonoBehaviour
 
         return pooledObjects.FirstOrDefault();
     }
+
+    public void ClearPooledObjects()
+    {
+        foreach (var pooledObject in pooledObjects)
+        {
+            Destroy(pooledObject);
+        }
+        pooledObjects.Clear();
+    }
+
+    public void UpdatePooledObjects(GameObject prefab)
+    {
+        ClearPooledObjects();
+        targetPrefab = prefab;
+        BeginPooling();
+    }
+
+    private void BeginPooling()
+    {
+        for (var i = 0; i < amount; i++)
+        {
+            var obj = Instantiate(targetPrefab, parent.transform);
+            obj.SetActive(false);
+            pooledObjects.Add(obj);
+        }
+    }
 }

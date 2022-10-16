@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private float timeToLive = 5f; // The time till the projectile is destroyed in seconds
+    private SpellData spellData;
     private bool hit;
     private BoxCollider2D boxCollider;
     private Animator anim;
@@ -24,22 +24,21 @@ public class Projectile : MonoBehaviour
     {
         //if it hits we dont do anything otherwise it keeps moving 
         if (hit) return;
-        float movementSpeed = speed * Time.deltaTime*direction;
+        float movementSpeed = spellData.Speed * Time.deltaTime*direction;
         transform.Translate(movementSpeed, 0, 0);
     }
     //if it hits something it explodes 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         hit = true;
-        boxCollider.enabled = false;
         anim.SetTrigger("explosion");
     }
-    public void SetDirection(float _direction)
+    public void SetDirection(float _direction, SpellData spellData)
     {
+        this.spellData = spellData;
         direction = _direction;
         gameObject.SetActive(true);
         hit = false;
-        boxCollider.enabled = true;
         float localScaleX = transform.localScale.x;
         if (Mathf.Sign(localScaleX) != _direction)
             localScaleX = -localScaleX;
@@ -53,7 +52,7 @@ public class Projectile : MonoBehaviour
     
     private void OnEnable()
     {
-        StartCoroutine(DestroyAfterSeconds(timeToLive));
+        StartCoroutine(DestroyAfterSeconds(spellData.TimeToLive));
     }
     
     
