@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class HealthCollect : MonoBehaviour
 {
-    [SerializeField] private float Healthvalue;
-
+    [SerializeField] private float Healthvalue;   
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Player")
@@ -14,5 +13,7 @@ public class HealthCollect : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+
 
 }

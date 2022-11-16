@@ -20,13 +20,6 @@ public class Health : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TakeDamage(1);
-        }
-    }
     public void TakeDamage(float _damage)
     {
         //subtracts damage and checks is health is >0 and <maxHealth

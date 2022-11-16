@@ -8,7 +8,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Transform firePoint;
     private Animator anim;
     private PlayerMovement playerMovement;
-    private float cooldownTimer= Mathf.Infinity;
+    private float cooldownTimer = Mathf.Infinity;
     // Start is called before the first frame update
     void Awake()
     {
@@ -37,4 +37,17 @@ public class PlayerAttack : MonoBehaviour
         currentFireball.transform.position = firePoint.position;
         currentFireball.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
     }
+    //gets old shooting speed, changes it and then restores it 
+    public void RageUP(float rageDuration, float shootingSpeedreduce)
+    {
+        float prevSpeed = attackCooldown;
+        attackCooldown = prevSpeed * (100 - shootingSpeedreduce)/100;
+        StartCoroutine(RageTime(rageDuration, prevSpeed));
+    }
+    private IEnumerator RageTime(float rageDuration, float prevSpeed)
+    {
+        yield return new WaitForSeconds(rageDuration); // waits before giving back old shooting speed 
+        attackCooldown = prevSpeed;
+    }
+
 }
