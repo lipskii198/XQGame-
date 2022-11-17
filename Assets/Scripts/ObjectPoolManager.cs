@@ -29,12 +29,7 @@ public class ObjectPoolManager : MonoBehaviour
     private void Start()
     {
         pooledObjects = new List<GameObject>();
-        for (var i = 0; i < amount; i++)
-        {
-            var obj = Instantiate(targetPrefab, parent.transform);
-            obj.SetActive(false);
-            pooledObjects.Add(obj);
-        }
+        BeginPooling();
     }
 
     // Get the first pooled object that isn't currently active and return it otherwise just return the first in the list
