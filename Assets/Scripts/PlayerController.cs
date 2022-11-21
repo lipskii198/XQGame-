@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    [SerializeField] private float jumpForce;
-    [SerializeField] private float attackCooldown;
     [SerializeField] private float wallJumpCooldown;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
@@ -16,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private BoxCollider2D boxCollider;
     private SpellsManager spellsManager;
+    private PlayerManager playerManager;
 
     private void Awake()
     {
@@ -23,22 +20,23 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
         spellsManager = GetComponent<SpellsManager>();
+        playerManager = GetComponent<PlayerManager>();
     }
 
     // Update is called once per frame
     private void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
-
+    
         //flipping animation
         transform.localScale = horizontalInput switch
         {
-            > 0.01f => Vector3.one,
-            < -0.01f => new Vector3(-1, 1, 1),
+            > 0.01f => new Vector2(3, transform.localScale.y),
+            < -0.01f => new Vector2(-3, transform.localScale.y),
             _ => transform.localScale
         };
 
-        if (Input.GetMouseButton(0)&& cooldownTimer > attackCooldown && CanAttack())
+        if (Input.GetMouseButton(0)&& cooldownTimer > playerManager.GetCharacterStats.attackSpeed && CanAttack())
             BeginAttack();
         
         cooldownTimer += Time.deltaTime;
@@ -50,7 +48,7 @@ public class PlayerController : MonoBehaviour
         if (wallJumpCooldown >0.2f)
         {
 
-            body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
+            body.velocity = new Vector2(horizontalInput * playerManager.GetCharacterStats.movementSpeed, body.velocity.y);
             if(OnWall() && !IsGrounded())
             {
                 body.velocity = Vector2.zero; 
@@ -66,17 +64,18 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            wallJumpCooldown = wallJumpCooldown + Time.deltaTime;
+            wallJumpCooldown += Time.deltaTime;
         }
 
 
     }
+
     //jump
     private void Jump()
     {
         if (IsGrounded())
         {
-            body.velocity = new Vector2(body.velocity.x, jumpForce);
+            body.velocity = new Vector2(body.velocity.x, playerManager.GetCharacterStats.jumpSpeed);
         }
         else if (OnWall() && !IsGrounded())
         {
@@ -108,6 +107,9 @@ public class PlayerController : MonoBehaviour
         cooldownTimer = 0;
         spellsManager.Cast();
     }
+    
+    //TODO: Update to work with new WIP stats system
+    /*
     public void RageUP(float rageDuration, float shootingSpeedreduce)
     {
         float prevSpeed = attackCooldown;
@@ -119,5 +121,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(rageDuration); // waits before giving back old shooting speed 
         attackCooldown = prevSpeed;
     }
+    */
 
 }

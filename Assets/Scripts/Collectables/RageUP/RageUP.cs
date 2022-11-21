@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class RageUP : MonoBehaviour
+namespace Collectables.RageUP
 {
-    [SerializeField] private float rageDuration;
-    [SerializeField] private float ShootingSpeedReduce;
+    public class RageUP : MonoBehaviour
+    {
+        [SerializeField] private float rageDuration;
+        [SerializeField] private float ShootingSpeedReduce;
 
+        /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
@@ -15,5 +16,6 @@ public class RageUP : MonoBehaviour
             collision.GetComponent<PlayerController>().RageUP(rageDuration, ShootingSpeedReduce);
             gameObject.SetActive(false);
         }
+    } */
     }
 }
