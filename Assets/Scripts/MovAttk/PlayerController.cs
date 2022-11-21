@@ -108,4 +108,16 @@ public class PlayerController : MonoBehaviour
         cooldownTimer = 0;
         spellsManager.Cast();
     }
+    public void RageUP(float rageDuration, float shootingSpeedreduce)
+    {
+        float prevSpeed = attackCooldown;
+        attackCooldown = prevSpeed * (100 - shootingSpeedreduce) / 100;
+        StartCoroutine(RageTime(rageDuration, prevSpeed));
+    }
+    private IEnumerator RageTime(float rageDuration, float prevSpeed)
+    {
+        yield return new WaitForSeconds(rageDuration); // waits before giving back old shooting speed 
+        attackCooldown = prevSpeed;
+    }
+
 }

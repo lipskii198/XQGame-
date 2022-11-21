@@ -12,7 +12,7 @@ public class RageUP : MonoBehaviour
         if (collision.tag == "Player")
         {
             //if object touches player it starts rage time 
-            //collision.GetComponent<PlayerAttack>().RageUP(rageDuration, ShootingSpeedReduce);
+            collision.GetComponent<PlayerController>().RageUP(rageDuration, ShootingSpeedReduce);
             gameObject.SetActive(false);
         }
     }
