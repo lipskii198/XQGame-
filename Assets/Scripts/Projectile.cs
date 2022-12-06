@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using ScriptableObjects;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -34,6 +35,8 @@ public class Projectile : MonoBehaviour
         Debug.Log($"Hit {collision.gameObject.name} should damage for {spellData.Damage}");
         hit = true;
         anim.SetTrigger("explosion");
+        if (collision.CompareTag("Enemy"))
+            collision.GetComponent<PlayerManager>().TakeDamage(1);
     }
     public void SetDirection(float _direction, SpellData spellData)
     {

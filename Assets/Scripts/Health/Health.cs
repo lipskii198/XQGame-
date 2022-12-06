@@ -12,11 +12,15 @@ public class Health : MonoBehaviour
     [Header("IFrame")]//deals with invincibility frame 
     [SerializeField] private float iFrameDuration;
     [SerializeField] private float numberOfFlashes;
-    private SpriteRenderer spriteRend; 
+    private SpriteRenderer spriteRend;
+    private Animator anim;
+
+    private bool dead=false; 
     void Awake()
     {
         currentHealth = startingHealth;
-        spriteRend = GetComponent<SpriteRenderer>(); 
+        spriteRend = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
 
     }
 
@@ -42,6 +46,22 @@ public class Health : MonoBehaviour
         }
         else
         {
+            if (!dead)
+            {
+                //sets death ainmation
+                anim.SetTrigger("Die");
+
+                //player
+                if(GetComponent < PlayerController >() != null)
+                    GetComponent<PlayerController>().enabled = false;
+
+                //enemy
+                if (GetComponentInParent<EnemyPatrol>() != null)
+                    GetComponentInParent<EnemyPatrol>().enabled = false;
+
+                dead = true; 
+            }
+
             //player dead 
         }
     }
