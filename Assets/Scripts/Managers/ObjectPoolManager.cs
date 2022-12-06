@@ -12,6 +12,8 @@ namespace Managers
         [SerializeField] private GameObject targetPrefab; //The prefab that we will use as a base 
         [SerializeField] private GameObject parent; //Where all these objects will be parented
         [SerializeField] private int amount; //Amount of objects to pool
+        [SerializeField] private bool canGrow; //Can we grow the pool if we run out of objects?
+
 
         private void Awake()
         {

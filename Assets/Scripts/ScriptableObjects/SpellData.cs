@@ -10,6 +10,9 @@ namespace ScriptableObjects
         [SerializeField] private string description;
         [SerializeField] private float speed;
         [SerializeField] private float timeToLive;
+        [SerializeField] private float damage;
+        [SerializeField] private float manaCost;
+        [SerializeField] private float cooldown;
         [SerializeField] private GameObject spellPrefab;
 
 
@@ -18,6 +21,9 @@ namespace ScriptableObjects
         public string Description => description;
         public float Speed => speed;
         public float TimeToLive => timeToLive;
+        public float Damage => damage;
+        public float ManaCost => manaCost;
+        public float Cooldown => cooldown;
         public GameObject SpellPrefab => spellPrefab;
     }
 }

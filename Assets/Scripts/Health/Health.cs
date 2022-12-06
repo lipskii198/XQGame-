@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,9 +25,11 @@ public class Health : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            TakeDamage(1);
+            //TakeDamage(1);
         }
     }
+    
+    [Obsolete("Use PlayerManager.TakeDamage instead", true)]
     public void TakeDamage(float _damage)
     {
         //subtracts damage and checks is health is >0 and <maxHealth

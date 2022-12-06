@@ -17,4 +17,7 @@ MonoBehaviour:
   description: N/A
   speed: 5
   timeToLive: 5
+  damage: 2
+  manaCost: 1
+  cooldown: 0.5
   spellPrefab: {fileID: 3651670418501970626, guid: 7eaf5351cba5f0f428c304c991b9bae9, type: 3}

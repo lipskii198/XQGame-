@@ -737,6 +737,7 @@ GameObject:
   m_Component:
   - component: {fileID: 886910324}
   - component: {fileID: 886910325}
+  - component: {fileID: 886910326}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -775,6 +776,19 @@ MonoBehaviour:
   targetPrefab: {fileID: 3651670418501970626, guid: 7eaf5351cba5f0f428c304c991b9bae9, type: 3}
   parent: {fileID: 1699356400}
   amount: 10
+  canGrow: 0
+--- !u!114 &886910326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886910322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15e28e9ffe249d09d3c32a82fe19721, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &921505616 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 547349350693698449, guid: ee67a11d1b5d1e543a8c83201b6de6f8, type: 3}
@@ -1684,7 +1698,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1996781592}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6970fd87e731770418e8b53d388394d7, type: 3}
   m_Name: 
@@ -1719,14 +1733,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coins: 0
+  currentHealth: 0
+  isPlayerInvulnerable: 0
   characterStats:
     allowStatsCalculation: 1
     movementSpeed: 0
     jumpSpeed: 0
     attackSpeed: 0
+    health: 0
     baseMovementSpeed: 7
     baseJumpForce: 5
     baseAttackSpeed: 0.3
+    baseHealth: 5
+    baseMana: 2
+  invulnerabilityTime: 1
+  invulnerabilityFlashTime: 5
   onStatsUpdated:
     m_PersistentCalls:
       m_Calls:
@@ -1737,6 +1758,21 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPlayerDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 886910326}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnPlayerDeath
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

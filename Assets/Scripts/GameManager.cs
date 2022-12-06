@@ -16,4 +16,9 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
+    
+    public void OnPlayerDeath()
+    {
+        Debug.Log("Player died");
+    }
 }

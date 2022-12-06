@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjects;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -30,6 +31,7 @@ public class Projectile : MonoBehaviour
     //if it hits something it explodes 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log($"Hit {collision.gameObject.name} should damage for {spellData.Damage}");
         hit = true;
         anim.SetTrigger("explosion");
     }
