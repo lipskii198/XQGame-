@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enemies;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -56,8 +57,8 @@ public class Health : MonoBehaviour
                     GetComponent<PlayerController>().enabled = false;
 
                 //enemy
-                if (GetComponentInParent<EnemyPatrol>() != null)
-                    GetComponentInParent<EnemyPatrol>().enabled = false;
+                if (GetComponentInParent<EnemyController>() != null)
+                    GetComponentInParent<EnemyController>().enabled = false;
 
                 dead = true; 
             }

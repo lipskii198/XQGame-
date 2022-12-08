@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 6745745497190551449}
   - component: {fileID: 6745745497190551454}
   - component: {fileID: 6745745497190551455}
-  - component: {fileID: 9014605684667689536}
+  - component: {fileID: -8044712905526363030}
   m_Layer: 0
   m_Name: EnemyFireball
-  m_TagString: Untagged
+  m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,7 +155,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &9014605684667689536
+--- !u!114 &-8044712905526363030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,9 +164,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6745745497190551443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cf945274c48fc248b29e8c8d9724890, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d3357c2f70943e4e9930b5cafba13a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
-  speed: 5
-  resetTime: 5
+  targetTag: Player

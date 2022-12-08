@@ -1,4 +1,5 @@
-﻿using ScriptableObjects;
+﻿using ObjectPooling;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Managers
@@ -11,7 +12,7 @@ namespace Managers
 
         public void Cast()
         {
-            var spellObj = ObjectPoolManager.Instance.GetPooledObject();
+            var spellObj = ObjectPoolManager.Instance.GetPooledObject("PlayerProjectile");
             spellObj.transform.position = projectileSpawnPoint.position;
             spellObj.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x), GetCurrentSpell);
         }
@@ -19,7 +20,7 @@ namespace Managers
         public void ChangeSpell(SpellData spell)
         {
             currentSpell = spell;
-            ObjectPoolManager.Instance.UpdatePooledObjects(currentSpell.SpellPrefab);
+            //ObjectPoolManager.Instance.UpdatePooledObjects(currentSpell.SpellPrefab);
         }
     
         public SpellData GetCurrentSpell => currentSpell;

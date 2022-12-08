@@ -17,8 +17,6 @@ public class CharacterStats
     [SerializeField] private float baseJumpForce;
     [SerializeField] private float baseAttackSpeed;
     [SerializeField] private float baseHealth;
-    [SerializeField] private float baseMana;
-
 
     public void CalculateOverallStats()
     {

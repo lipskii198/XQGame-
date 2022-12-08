@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enemies;
 using Managers;
 using ScriptableObjects;
 using Unity.VisualScripting;
@@ -9,6 +10,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     private SpellData spellData;
+    [SerializeField] private string targetTag;
     private bool hit;
     private BoxCollider2D boxCollider;
     private Animator anim;
@@ -32,11 +34,20 @@ public class Projectile : MonoBehaviour
     //if it hits something it explodes 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"Hit {collision.gameObject.name} should damage for {spellData.Damage}");
         hit = true;
         anim.SetTrigger("explosion");
-        if (collision.CompareTag("Enemy"))
-            collision.GetComponent<PlayerManager>().TakeDamage(1);
+        switch (collision.tag)
+        {
+            // Player -> PlayerManager.TakeDamage
+            // Enemy -> EnemyManager.TakeDamage
+            
+            case "Enemy":
+                collision.GetComponent<EnemyManager>().TakeDamage(spellData.Damage);
+                break;
+            case "Player":
+                collision.GetComponent<PlayerManager>().TakeDamage(spellData.Damage);
+                break;
+        }
     }
     public void SetDirection(float _direction, SpellData spellData)
     {
@@ -44,10 +55,7 @@ public class Projectile : MonoBehaviour
         direction = _direction;
         gameObject.SetActive(true);
         hit = false;
-        float localScaleX = transform.localScale.x;
-        if (Mathf.Sign(localScaleX) != _direction)
-            localScaleX = -localScaleX;
-        transform.localScale = new Vector3(localScaleX, transform.localScale.y, transform.localScale.z);
+        transform.Translate((Vector3.forward * this.spellData.Speed) * Time.deltaTime); 
     }
 
     public void Deactivate()
