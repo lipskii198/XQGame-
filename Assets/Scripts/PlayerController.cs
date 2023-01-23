@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
     {
         anim.SetTrigger("attack");
         cooldownTimer = 0;
-        spellsManager.Cast();
+        spellsManager.Cast("Fireball");
     }
     
     //TODO: Update to work with new WIP stats system

@@ -1,69 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace ObjectPooling
 {
-    public class ObjectPoolManager : MonoBehaviour
+    public class ObjectPoolManager : LazySingletonMono<ObjectPoolManager>
     {
-        // This script will be accessed by other scripts later so its best to just make it a singleton now
-        public static ObjectPoolManager Instance;
-        [SerializeField] private List<ObjectPoolItem> itemsToPool; // List of all the items we want to pool
-        [SerializeField] private List<GameObject> pooledObjects; // List of all the pooled objects
-        [SerializeField] private GameObject parent; //Where all these objects will be parented
-
-        private void Awake()
-        {
-            //This is fine for now to create singletons but moving forward we would probably want a generic class to automate all this - Look at LazySingletonMono
-            if (Instance != null && Instance != this)
-            {
-                gameObject.SetActive(false);
-            }
-            else
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject); // we probably want this to work cross-scenes so lets not destroy it
-            }
-        }
+        [SerializeField] private List<ObjectPoolItem> itemsToPool;
+        [SerializeField] private List<GameObject> pooledObjects = new();
+        [SerializeField] private Transform parent;
 
         private void Start()
         {
-            pooledObjects = new List<GameObject>();
             BeginPooling();
         }
 
-        // Get the first pooled object with a tag and return it - if none are available, return null but if the pooled item is allowed to grow then create a new one
-        public GameObject GetPooledObject(string tag)
+        public GameObject GetPooledObject(string objectTag)
         {
-            foreach (var t in pooledObjects.Where(t => !t.activeInHierarchy && t.CompareTag(tag))) // Get all the inactive objects with the tag
+            // iterate through the list of pooled objects and check if the object is not active and has the same tag passed as a parameter
+            foreach (var poolItem in pooledObjects.Where(poolItem => !poolItem.activeInHierarchy && poolItem.CompareTag(objectTag)))
             {
-                return t;
+                // return the object if all is gucci
+                return poolItem;
             }
 
-            foreach (var obj in from poolItem in itemsToPool where poolItem.objectToPool.CompareTag(tag) where poolItem.canGrow select Instantiate(poolItem.objectToPool)) // Get all the items that can grow and have the tag
+            // iterate through the list of pooled objects and check if the object is not active and has the same tag passed as a parameter and can grow
+            foreach (var obj in from poolItem in itemsToPool where poolItem.objectToPool.CompareTag(objectTag) && poolItem.canGrow select Instantiate(poolItem.objectToPool, parent, true))
             {
+                // set the object to inactive, add it to the pooled objects list, and return it
                 obj.SetActive(false);
                 pooledObjects.Add(obj);
                 return obj;
             }
-            
+
+            // If all fails return null
             return null;
         }
 
         public void ClearPooledObjects()
         {
-            foreach (var pooledObject in pooledObjects)
-            {
-                Destroy(pooledObject);
-            }
-            pooledObjects.Clear();
-        }
+            foreach (var poolItem in pooledObjects)
+                Destroy(poolItem);
 
-        [Obsolete("This method is deprecated, needs to be refactored to use the new ObjectPoolItem class")]
-        public void UpdatePooledObjects(GameObject prefab)
-        {
-            
+            pooledObjects.Clear();
         }
 
         private void BeginPooling()
@@ -72,7 +51,7 @@ namespace ObjectPooling
             {
                 for (var i = 0; i < poolItem.amountToPool; i++)
                 {
-                    var obj = Instantiate(poolItem.objectToPool, parent.transform);
+                    var obj = Instantiate(poolItem.objectToPool, parent);
                     obj.SetActive(false);
                     pooledObjects.Add(obj);
                 }
