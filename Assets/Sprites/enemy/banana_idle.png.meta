@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 37e80af317746df4b960f575129243eb
+guid: f162288397973c04280fe97f3128ae45
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 75
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -101,173 +101,143 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: banana_death 1_0
+      name: ideling_banana_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 1495
-        width: 1476
-        height: 1324
-      alignment: 1
-      pivot: {x: 0, y: 1}
+        x: 50
+        y: 404
+        width: 110
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 58f6d1e8de983a946aae6410bcc2ff51
-      internalID: 1363573913
+      spriteID: 58f3442dd57540b4ba0157234d5b6769
+      internalID: 1899514959
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: banana_death 1_1
+      name: ideling_banana_1
       rect:
         serializedVersion: 2
-        x: 1290
-        y: 1491
-        width: 1476
-        height: 1324
-      alignment: 1
-      pivot: {x: 0, y: 1}
+        x: 287
+        y: 407
+        width: 99
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 031d76f4da0103a468c3d9dfb8a4924e
-      internalID: 1202540600
+      spriteID: 738fca25f2d91114da0632634ef62b16
+      internalID: -600464895
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: banana_death 1_2
+      name: ideling_banana_2
       rect:
         serializedVersion: 2
-        x: 2652
-        y: 1443
-        width: 1476
-        height: 1324
-      alignment: 1
-      pivot: {x: 0, y: 1}
+        x: 499
+        y: 405
+        width: 110
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 74104157d2beb2542b4743725275c160
-      internalID: -960910663
+      spriteID: 9372f36c0f153634c89e99253adf8df5
+      internalID: -1085421862
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: banana_death 1_3
+      name: ideling_banana_3
       rect:
         serializedVersion: 2
-        x: 4000
-        y: 1458
-        width: 1476
-        height: 1324
-      alignment: 1
-      pivot: {x: 0, y: 1}
+        x: 48
+        y: 89
+        width: 115
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 390134804c0078e4eb37dd8589ec17ee
-      internalID: 1665194381
+      spriteID: dc80229afaf2190499e288dca875a89d
+      internalID: -1201327071
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: banana_death 1_4
+      name: ideling_banana_4
       rect:
         serializedVersion: 2
-        x: 4446
-        y: 1358
-        width: 10
-        height: 10
-      alignment: 1
-      pivot: {x: 0, y: 1}
+        x: 285
+        y: 101
+        width: 105
+        height: 216
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9261cfdc7410ca1478e35b1df8ad2d98
-      internalID: 289378886
+      spriteID: 138e52cd791644c4e8bad34de373a919
+      internalID: -1535649342
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: banana_death 1_5
+      name: ideling_banana_5
       rect:
         serializedVersion: 2
-        x: 128
-        y: 152
-        width: 1476
-        height: 1324
-      alignment: 1
-      pivot: {x: 0, y: 1}
+        x: 495
+        y: 98
+        width: 111
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 77d0ea52490233644a7fa242ea68d236
-      internalID: -1417372827
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: banana_death 1_6
-      rect:
-        serializedVersion: 2
-        x: 1988
-        y: 187
-        width: 1475
-        height: 1251
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7bc0af3cbd6a7ac4197c4f2f6d39d34c
-      internalID: 71957787
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: banana_death 1_7
-      rect:
-        serializedVersion: 2
-        x: 3766
-        y: 260
-        width: 1462
-        height: 1196
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 52bb4cf0262fb1644837b8fe2fc03f66
-      internalID: 2136239029
+      spriteID: 280e33f376d95e94da98bfb1b08042b4
+      internalID: 747098991
       vertices: []
       indices: 
       edges: []
@@ -283,14 +253,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      banana_death 1_1: 1202540600
-      banana_death 1_2: -960910663
-      banana_death 1_4: 289378886
-      banana_death 1_5: -1417372827
-      banana_death 1_0: 1363573913
-      banana_death 1_6: 71957787
-      banana_death 1_7: 2136239029
-      banana_death 1_3: 1665194381
+      ideling_banana_4: -1535649342
+      ideling_banana_3: -1201327071
+      ideling_banana_2: -1085421862
+      ideling_banana_5: 747098991
+      ideling_banana_0: 1899514959
+      ideling_banana_1: -600464895
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

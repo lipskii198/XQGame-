@@ -56,8 +56,10 @@ namespace Enemies
             
             if (currentHealth <= 0)
             {
-                //anim.SetTrigger("Death");
+                anim.SetTrigger("Die");
                 Destroy(gameObject, 1f);
+                enemyController.enabled = false;
+                this.enabled = false;
             }
         }
         private void RangedAttack()
@@ -65,6 +67,7 @@ namespace Enemies
             cooldownTimer = 0;
             // fireballs[FindFireBall()].transform.position = firepoint.position;
             // fireballs[FindFireBall()].GetComponent<EnemyProjectile>().ActivateProjectile();
+            anim.SetTrigger("Attack");
             Debug.Log($"Enemy {gameObject.name} is attacking with {currentSpell.name} spell");
             var projectile = ObjectPoolManager.Instance.GetPooledObject("EnemyProjectile");
             projectile.transform.position = firepoint.position;

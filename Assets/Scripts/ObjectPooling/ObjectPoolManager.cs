@@ -9,9 +9,9 @@ namespace ObjectPooling
         [SerializeField] private List<ObjectPoolItem> itemsToPool;
         [SerializeField] private List<GameObject> pooledObjects = new();
         [SerializeField] private Transform parent;
-
         private void Start()
         {
+            parent = new GameObject("ObjectPoolHolder").transform;
             BeginPooling();
         }
 

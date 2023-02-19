@@ -40,7 +40,7 @@ public class Camera : MonoBehaviour
             rb.simulated = false;
             
             //Literally just set the cam position to be player position. 
-            this.transform.position = new Vector3(player.position.x, player.position.y, -10);
+            this.transform.position = new Vector3(player.position.x, player.position.y, -25);
             
         } else {
             //Add camera back to physics sim

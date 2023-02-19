@@ -10,7 +10,6 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     private SpellData spellData;
-    [SerializeField] private string targetTag;
     private bool hit;
     private BoxCollider2D boxCollider;
     private Animator anim;
@@ -20,7 +19,6 @@ public class Projectile : MonoBehaviour
     {
         boxCollider = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
-
     }
 
     // Update is called once per frame
@@ -43,9 +41,11 @@ public class Projectile : MonoBehaviour
             
             case "Enemy":
                 collision.GetComponent<EnemyManager>().TakeDamage(spellData.Damage);
+                boxCollider.enabled = false;
                 break;
             case "Player":
                 collision.GetComponent<PlayerManager>().TakeDamage(spellData.Damage);
+                boxCollider.enabled = false;
                 break;
         }
     }
@@ -56,6 +56,7 @@ public class Projectile : MonoBehaviour
         gameObject.SetActive(true);
         hit = false;
         transform.Translate((Vector3.forward * this.spellData.Speed) * Time.deltaTime); 
+        boxCollider.enabled = true;
     }
 
     public void Deactivate()

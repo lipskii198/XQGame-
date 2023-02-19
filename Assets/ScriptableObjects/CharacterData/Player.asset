@@ -9,15 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9e9f23e677f4ed1b389519d4e1592e1, type: 3}
+  m_Script: {fileID: 0}
   m_Name: Player
   m_EditorClassIdentifier: 
-  characterType: 0
-  characterStats:
-    allowStatsCalculation: 0
-    movementSpeed: 7
-    jumpSpeed: 5
-    attackSpeed: 0.3
-    baseMovementSpeed: 7
-    baseJumpForce: 5
-    baseAttackSpeed: 0.3
