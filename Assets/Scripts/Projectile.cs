@@ -41,13 +41,14 @@ public class Projectile : MonoBehaviour
             
             case "Enemy":
                 collision.GetComponent<EnemyManager>().TakeDamage(spellData.Damage);
-                boxCollider.enabled = false;
                 break;
             case "Player":
                 collision.GetComponent<PlayerManager>().TakeDamage(spellData.Damage);
-                boxCollider.enabled = false;
+                break;
+            case "EnemyBoss":
                 break;
         }
+        boxCollider.enabled = false;
     }
     public void SetDirection(float _direction, SpellData spellData)
     {
