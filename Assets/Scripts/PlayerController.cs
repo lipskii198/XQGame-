@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private BoxCollider2D boxCollider;
     private SpellsManager spellsManager;
     private PlayerManager playerManager;
-
+    private int possibleJump;
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
         //setting on running animation
         anim.SetBool("running", horizontalInput != 0);
 
+
         //walljump logic
         if (wallJumpCooldown >0.2f)
         {
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour
             {
                 body.velocity = Vector2.zero; 
             }
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKeyUp(KeyCode.Space) && (IsGrounded() || possibleJump>1)) 
             {
                 Jump();
             }
@@ -66,6 +67,10 @@ public class PlayerController : MonoBehaviour
         {
             wallJumpCooldown += Time.deltaTime;
         }
+        if(IsGrounded())
+        {
+            possibleJump =2; 
+        }
 
 
     }
@@ -73,22 +78,25 @@ public class PlayerController : MonoBehaviour
     //jump
     private void Jump()
     {
-        if (IsGrounded())
+        possibleJump -= 1;           
+        body.velocity = new Vector2(body.velocity.x, playerManager.GetCharacterStats.jumpSpeed);
+        if (IsGrounded() )
         {
-            body.velocity = new Vector2(body.velocity.x, playerManager.GetCharacterStats.jumpSpeed);
+ 
         }
-        else if (OnWall() && !IsGrounded())
+        /*else if (OnWall() && !IsGrounded())
         {
 
             body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 1, 3);
             wallJumpCooldown = 0;
 
         }
+        */
     }
     //fixing infinite jump and addign wall jump
     private bool IsGrounded()
     {
-        var raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.03f, groundLayer);
+        var raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.01f, groundLayer);
         return raycastHit.collider != null;
     }
     private bool OnWall()
