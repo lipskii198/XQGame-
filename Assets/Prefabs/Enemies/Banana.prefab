@@ -173,7 +173,7 @@ MonoBehaviour:
   rightEdge: {fileID: 0}
   enemy: {fileID: 5713819854781342934}
   speed: 2
-  idleDuration: 0
+  idleDuration: 1
   anim: {fileID: 5713819854781342935}
 --- !u!114 &5713819854781342957
 MonoBehaviour:
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: ff43cef96b9a84545b5f6a92e2e7d5c8, type: 2}
-  currentSpell: {fileID: 11400000, guid: c61b6a62a88f16e4fb068cf9beef98cc, type: 2}
+  currentSpell: {fileID: 11400000, guid: fa5c33ead9843b54d8e26aaa2b75356d, type: 2}
   currentHealth: 0
   firepoint: {fileID: 5713819855574819581}
   colliderDistance: 0.88
