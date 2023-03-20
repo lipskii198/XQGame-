@@ -8,6 +8,7 @@ TagManager:
   - PlayerProjectile
   - EnemyProjectile
   - EnemyBoss
+  - SpawnPoints
   layers:
   - Default
   - TransparentFX

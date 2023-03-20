@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
             _ => transform.localScale
         };
 
-        if (Input.GetMouseButton(0)&& cooldownTimer > playerManager.GetCharacterStats.attackSpeed && CanAttack())
+        if (Input.GetMouseButton(0) && cooldownTimer > playerManager.GetCharacterStats.attackSpeed && CanAttack())
             BeginAttack();
         
         cooldownTimer += Time.deltaTime;
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
             {
                 body.velocity = Vector2.zero; 
             }
-            if (Input.GetKeyUp(KeyCode.Space) && (IsGrounded() || possibleJump>1)) 
+            if (Input.GetKeyDown(KeyCode.Space) && (IsGrounded() || possibleJump>1)) 
             {
                 Jump();
             }

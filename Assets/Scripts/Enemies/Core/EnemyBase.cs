@@ -6,11 +6,10 @@ namespace Enemies.Core
 {
     public abstract class EnemyBase : MonoBehaviour
     {
-        [SerializeField] private EnemyData enemyData;
+        [SerializeField] protected EnemyData enemyData;
         [SerializeField] protected float currentHealth;
         [SerializeField] protected float timeSinceLastAttack;
         [SerializeField] protected bool isFollowingPlayer;
-        
         protected Transform playerTransform;
         protected Animator animator;
         protected Rigidbody2D rb;
@@ -62,7 +61,7 @@ namespace Enemies.Core
 
         protected virtual void Patrol()
         {
-            // Override me
+            
         }
 
         protected virtual void Goto()
