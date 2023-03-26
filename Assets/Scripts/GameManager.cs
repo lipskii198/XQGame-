@@ -7,13 +7,13 @@ public class GameManager : LazySingletonMono<GameManager>
 
 
     private WaveManager waveManager;
-    public LevelData CurrentLevelData => currentLevelData;
+    public LevelData GetCurrentLevelData => currentLevelData;
     
     private void Start()
     {
         waveManager = GetComponent<WaveManager>();
         
-        SetCurrentLevelData("AntsLevels");
+        SetCurrentLevelData("AntsLevel");
         
         if (currentLevelData == null)
         {

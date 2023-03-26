@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   enemiesPerWave: 02000000
-  spawnDelay: 2
+  spawnDelay: 15
   maxWaves: 10
   enemiesPrefabs:
-  - {fileID: 5713819854781342933, guid: 516fe3866dbf39742995c3bf70e954d5, type: 3}
-  - {fileID: 8128868071370146596, guid: 2c10b91bf6e392d48abca8fc36153b7d, type: 3}
+  - {fileID: 2689606221872477573, guid: cea74685ec7973046afcd0056fd74060, type: 3}

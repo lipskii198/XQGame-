@@ -16,6 +16,7 @@ MonoBehaviour:
   enemyName: Banana
   health: 5
   damage: 1
-  speed: 2
+  movementSpeed: 2
   attackSpeed: 2
   attackRange: 5
+  detectionRange: 0

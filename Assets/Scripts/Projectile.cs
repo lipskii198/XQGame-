@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Enemies;
+using Enemies.Core;
 using Managers;
 using ScriptableObjects;
 using Unity.VisualScripting;
@@ -40,7 +41,7 @@ public class Projectile : MonoBehaviour
             // Enemy -> EnemyManager.TakeDamage
             
             case "Enemy":
-                collision.GetComponent<EnemyManager>().TakeDamage(spellData.Damage);
+                collision.GetComponent<EnemyBase>().TakeDamage(spellData.Damage);
                 break;
             case "Player":
                 collision.GetComponent<PlayerManager>().TakeDamage(spellData.Damage);

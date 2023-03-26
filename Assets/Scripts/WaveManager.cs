@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enemies.Core;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ public class WaveManager : MonoBehaviour
 
     private void Start()
     {
-        waveSpawnData = Resources.Load<WaveSpawnData>($"ScriptableObjects/Waves/WD_{GameManager.Instance.CurrentLevelData.LevelName}");
+        waveSpawnData = Resources.Load<WaveSpawnData>($"ScriptableObjects/Waves/WD_{GameManager.Instance.GetCurrentLevelData.LevelName}");
         
         for (var i = 0; i < SpawnPointParent.childCount; i++)
         {

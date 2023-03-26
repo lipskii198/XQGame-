@@ -68,7 +68,7 @@ namespace Enemies.Core
                 }
                 else
                 {
-                    //Goto(AiTarget.Player);
+                    //ChasePlayer(AiTarget.Player);
                 }
             }
         }
