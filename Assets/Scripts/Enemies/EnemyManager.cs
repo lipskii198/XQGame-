@@ -9,7 +9,7 @@ namespace Enemies
     {
 
         [SerializeField] private EnemyData enemyData;
-        [SerializeField] private SpellData currentSpell;
+        [SerializeField] private ProjectileData currentProjectile;
         [SerializeField] private float currentHealth;
         [Header("range attack")]
         [SerializeField] private Transform firepoint;
@@ -68,10 +68,10 @@ namespace Enemies
             // fireballs[FindFireBall()].transform.position = firepoint.position;
             // fireballs[FindFireBall()].GetComponent<EnemyProjectile>().ActivateProjectile();
             anim.SetTrigger("Attack");
-            Debug.Log($"Enemy {gameObject.name} is attacking with {currentSpell.name} spell");
+            Debug.Log($"Enemy {gameObject.name} is attacking with {currentProjectile.name} projectile");
             var projectile = ObjectPoolManager.Instance.GetPooledObject("EnemyProjectile");
             projectile.transform.position = firepoint.position;
-            projectile.GetComponent<Projectile>().SetDirection(-transform.localScale.x, currentSpell);
+            projectile.GetComponent<Projectile>().SetDirection(-transform.localScale.x, currentProjectile);
         }
         private bool PlayerInSight()
         {

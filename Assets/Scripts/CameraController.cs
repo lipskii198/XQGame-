@@ -1,17 +1,11 @@
-//Script for Main Camera
+//Script for Main CameraController
 //Currently allows for 2 modes
 //  A snappy camera that stays exactly on the player
 //  A physics based dynamic camera which is smoother
 
-
-
-
-
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
 
     //private GameObject cam;

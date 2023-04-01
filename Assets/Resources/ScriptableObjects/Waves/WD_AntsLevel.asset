@@ -17,4 +17,4 @@ MonoBehaviour:
   spawnDelay: 15
   maxWaves: 10
   enemiesPrefabs:
-  - {fileID: 2689606221872477573, guid: cea74685ec7973046afcd0056fd74060, type: 3}
+  - {fileID: 0}

@@ -1,16 +1,12 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Enemies;
 using Enemies.Core;
 using Managers;
 using ScriptableObjects;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private SpellData spellData;
+    private ProjectileData projectileData;
     private bool hit;
     private BoxCollider2D boxCollider;
     private Animator anim;
@@ -27,12 +23,13 @@ public class Projectile : MonoBehaviour
     {
         //if it hits we dont do anything otherwise it keeps moving 
         if (hit) return;
-        float movementSpeed = spellData.Speed * Time.deltaTime*direction;
+        float movementSpeed = projectileData.Speed * Time.deltaTime*direction;
         transform.Translate(movementSpeed, 0, 0);
     }
     //if it hits something it explodes 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (hit) return;
         hit = true;
         anim.SetTrigger("explosion");
         switch (collision.tag)
@@ -41,23 +38,23 @@ public class Projectile : MonoBehaviour
             // Enemy -> EnemyManager.TakeDamage
             
             case "Enemy":
-                collision.GetComponent<EnemyBase>().TakeDamage(spellData.Damage);
+                collision.GetComponent<EnemyBase>().TakeDamage(projectileData.Damage);
                 break;
             case "Player":
-                collision.GetComponent<PlayerManager>().TakeDamage(spellData.Damage);
+                collision.GetComponent<PlayerManager>().TakeDamage(projectileData.Damage);
                 break;
             case "EnemyBoss":
                 break;
         }
         boxCollider.enabled = false;
     }
-    public void SetDirection(float _direction, SpellData spellData)
+    public void SetDirection(float _direction, ProjectileData projectileData)
     {
-        this.spellData = spellData;
+        this.projectileData = projectileData;
         direction = _direction;
         gameObject.SetActive(true);
         hit = false;
-        transform.Translate((Vector3.forward * this.spellData.Speed) * Time.deltaTime); 
+        transform.Translate((Vector3.forward * this.projectileData.Speed) * Time.deltaTime); 
         boxCollider.enabled = true;
     }
 
@@ -68,7 +65,7 @@ public class Projectile : MonoBehaviour
     
     private void OnEnable()
     {
-        StartCoroutine(DestroyAfterSeconds(spellData.TimeToLive));
+        StartCoroutine(DestroyAfterSeconds(projectileData.TimeToLive));
     }
     
     

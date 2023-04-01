@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Managers
 {
@@ -11,6 +13,10 @@ namespace Managers
         [SerializeField] private float currentHealth;
         [SerializeField] private bool isPlayerInvulnerable;
         [SerializeField] private CharacterStats characterStats;
+        [Header("Health Settings")]
+        [SerializeField] private GameObject healthBar;
+        [SerializeField] private Image healthBarFill;
+        [SerializeField] private TMP_Text healthBarText;
         [Header("Invulnerability Settings")]
         [SerializeField] private float invulnerabilityTime;
         [SerializeField] private float invulnerabilityFlashTime;
@@ -18,18 +24,19 @@ namespace Managers
         public UnityEvent onStatsUpdated;
         public UnityEvent onPlayerDeath;
         
-        
         private SpriteRenderer spriteRenderer;
         
         private void Start()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            
             UpdateStats(recalculateStats:true);
         }
 
         private void Update()
         {
+            healthBarFill.fillAmount = currentHealth / GetCharacterStats.health;
+            healthBarText.text = $"{currentHealth} / {GetCharacterStats.health}";
+            
             if (Input.GetKeyDown(KeyCode.E))
             {
                 TakeDamage(1f);
@@ -70,6 +77,7 @@ namespace Managers
 
         public void Die()
         {
+            healthBar.SetActive(false);
             onPlayerDeath.Invoke();
         }
 
