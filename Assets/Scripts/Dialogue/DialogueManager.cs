@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -11,6 +13,11 @@ public class DialogueManager : MonoBehaviour
     Vector3 audioPosition;
     bool buttonPressed;
     bool sequenceStarted;
+
+    public TextMeshPro nameText;
+    public TextMeshPro speech;
+
+    public Animator animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,14 +54,15 @@ public class DialogueManager : MonoBehaviour
     {   
         Dialogue d = dialogues.Dequeue();
         Debug.Log("starting dialogue " + d.name);
-
+        nameText.text = d.name;
+        animator.SetBool("isOpen", true);
         sentences.Clear();
         //Play audio
         if (d.audio.file != "")
         {
             // Load the AudioClip from a file
             audioClip = Resources.Load<AudioClip>(d.audio.file);
-            Debug.Log(d.audio);
+
             // Play the audio clip
             if (audioClip != null) AudioSource.PlayClipAtPoint(audioClip, audioPosition, d.audio.volume);
         }
@@ -85,13 +93,23 @@ public class DialogueManager : MonoBehaviour
             DisplayNextSentence();
         }
     }
-
+    
+    IEnumerator TypeSentence(string sentence) {
+        speech.text = "";
+        foreach (char letter in sentence.ToCharArray()) {
+            speech.text += letter;
+            yield return null;
+        }
+    }
 
     //Called whenever the player hits the next button in the dialogue box
     public void DisplayNextSentence()
     {
 
         string sentence = sentences.Dequeue();
+        StopAllCoroutines();
+        StartCoroutine(TypeSentence(sentence));
+
         Debug.Log(sentence);
 
 
@@ -100,6 +118,7 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         sequenceStarted = false;
+        animator.SetBool("isOpen", false);
         //Remove character sprite
         Debug.Log("ending dialogue");
     }

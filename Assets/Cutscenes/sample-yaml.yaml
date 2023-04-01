@@ -6,8 +6,8 @@
     name: parasocial
     sprite: pepefrog.png
     audio: 
-        file:
-        volume: 
+        file: Audio/Cutscenes/TypeWriter_Mutiple_v4_wav
+        volume: 1
     sentences:
       - "I was only 14 years old I loved xQc so much, I had all the merchandise and VODS. I pray to xQc every night, thanking him for the life I've been given. \"xQc is love\" I say \"xQc is life\""
       - "My dad hears me and calls me a Juicer. I knew he was jealous of my devotion to xQc. I called him baj"
@@ -16,7 +16,7 @@
     name: xqc
     sprite: goblin.png
     audio: 
-      file: Audio/Cutscenes/soy
+      file: Audio/Cutscenes/Skeleton_Multiple_v3_wav
       volume: 1 #I think the volume ranges from 0 to 1
     sentences:
       - "dud DUD wtf dud"
