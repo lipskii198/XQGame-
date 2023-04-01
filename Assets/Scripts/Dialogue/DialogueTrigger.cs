@@ -7,11 +7,11 @@ using System.IO;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    
+    public string filePath;
     //Attach this trigger to whatever you want. A button, entering a level, etc
     //Specify the dialogue you want with a yaml file and that's it!
     public void TriggerDialogue() {
-        string filePath = Application.dataPath + "/Cutscenes/sample-yaml.yaml";
+        filePath = Application.dataPath + "/Cutscenes/sample-yaml.yaml";
         
         // Read the YAML file using a StreamReader
         StreamReader reader = new StreamReader(filePath);

@@ -20,15 +20,14 @@ public class DialogueManager : MonoBehaviour
         sequenceStarted = false;
 
     }
-    void Update()
+
+    void LateUpdate()
     {
-      
-            // Pause the loop and wait for a button to be pressed
-            if (Input.GetKeyDown(KeyCode.Space) && sequenceStarted)
-            {
-                DisplayNextSentence();
-            }
-        
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            DisplayNext();
+        }
     }
 
     public void EnqueueDialogue(Dialogue d)
@@ -37,17 +36,16 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void StartSequence()
-    {   
+    {
         sequenceStarted = true;
-        while (dialogues.Count > 0)
-        {
-            Dialogue d = dialogues.Dequeue();
-            StartDialogue(d);
-        }
+
+        DisplayNext();
+
     }
 
-    public void StartDialogue(Dialogue d)
-    {
+    public void DisplayNextDialogue()
+    {   
+        Dialogue d = dialogues.Dequeue();
         Debug.Log("starting dialogue " + d.name);
 
         sentences.Clear();
@@ -67,22 +65,36 @@ public class DialogueManager : MonoBehaviour
         {
             sentences.Enqueue(sentence);
         }
-        DisplayNextSentence();
-        
-        
+        DisplayNext();
+
+
     }
+
+    public void DisplayNext()
+    {
+        if (sentences.Count == 0 && dialogues.Count == 0)
+        {
+            EndDialogue();
+        }
+        else if (sentences.Count == 0 && dialogues.Count > 0)
+        {
+            DisplayNextDialogue();
+        }
+        else
+        {
+            DisplayNextSentence();
+        }
+    }
+
 
     //Called whenever the player hits the next button in the dialogue box
     public void DisplayNextSentence()
-    {   
-        if (sentences.Count != 0) {
-            string sentence = sentences.Dequeue();
-            Debug.Log(sentence);
-        } else {
-            EndDialogue();
-            return;
-        }
-        
+    {
+
+        string sentence = sentences.Dequeue();
+        Debug.Log(sentence);
+
+
     }
     //Probably need to do some garbage collection, will look into later
     void EndDialogue()
