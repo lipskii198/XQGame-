@@ -8,15 +8,15 @@ namespace Managers
 {
     public class SpellsManager : MonoBehaviour
     {
-        [SerializeField] private SpellData currentSpell;
+        [SerializeField] private ProjectileData currentProjectile;
         [SerializeField] private Transform projectileSpawnPoint;
-        private Dictionary<string, SpellData> spells;
+        private Dictionary<string, ProjectileData> spells;
 
 
         private void Start()
         {
-            spells = new Dictionary<string, SpellData>();
-            AddSpell("Fireball", Resources.Load<SpellData>("ScriptableObjects/Spells/Fireball"));
+            spells = new Dictionary<string, ProjectileData>();
+            AddSpell("Fireball", Resources.Load<ProjectileData>("ScriptableObjects/Spells/Fireball"));
         }
 
         public void Cast(string spellName)
@@ -30,22 +30,22 @@ namespace Managers
             spellObj.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x), spells[spellName]);
         }
         
-        public void AddSpell(string spellName, SpellData spell)
+        public void AddSpell(string spellName, ProjectileData projectile)
         {
             if(spells.ContainsKey(spellName))
             {
                 Debug.LogError("Spell already added.");
                 return;
             }
-            spells.Add(spellName, spell);
+            spells.Add(spellName, projectile);
         }
 
-        public void ChangeSpell(SpellData spell)
+        public void ChangeSpell(ProjectileData projectile)
         {
-            currentSpell = spell;
-            //ObjectPoolManager.Instance.UpdatePooledObjects(currentSpell.SpellPrefab);
+            currentProjectile = projectile;
+            //ObjectPoolManager.Instance.UpdatePooledObjects(currentProjectile.SpellPrefab);
         }
     
-        public SpellData GetCurrentSpell => currentSpell;
+        public ProjectileData GetCurrentProjectile => currentProjectile;
     }
 }

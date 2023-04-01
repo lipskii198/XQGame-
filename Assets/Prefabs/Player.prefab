@@ -233,6 +233,9 @@ MonoBehaviour:
     baseJumpForce: 5
     baseAttackSpeed: 0.3
     baseHealth: 5
+  healthBar: {fileID: 0}
+  healthBarFill: {fileID: 0}
+  healthBarText: {fileID: 0}
   invulnerabilityTime: 1
   invulnerabilityFlashTime: 5
   onStatsUpdated:
@@ -277,5 +280,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee3e71e7462e4147801df48eb5b4469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSpell: {fileID: 11400000, guid: c61b6a62a88f16e4fb068cf9beef98cc, type: 2}
+  currentProjectile: {fileID: 0}
   projectileSpawnPoint: {fileID: 6172835714377024982}

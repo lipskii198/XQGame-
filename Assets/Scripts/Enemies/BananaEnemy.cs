@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Enemies.Core;
+using Managers;
 using ObjectPooling;
 using ScriptableObjects;
 using UnityEngine;
@@ -8,6 +9,8 @@ namespace Enemies
 {
     public class BananaEnemy : EnemyBase
     {
+        [SerializeField] private ProjectileData projectileData;
+        [SerializeField] private Transform patrolPointHolder;
         [SerializeField] private List<Transform> patrolPoints;
         [SerializeField] private Transform targetPatrolPoint;
         [SerializeField] private int currentPatrolIndex;
@@ -15,19 +18,10 @@ namespace Enemies
 
         private void Start()
         {
-            patrolPoints = new List<Transform>
+            foreach (var patrolPoint in patrolPointHolder.GetComponentsInChildren<Transform>())
             {
-                new GameObject("PointLeft").transform,
-                new GameObject("PointRight").transform
-            };
-
-            patrolPoints[0].position = new Vector2(transform.position.x - 5, 2);
-            patrolPoints[1].position = new Vector2(transform.position.x + 5, 2);
-
-
-            foreach (var patrolPoint in patrolPoints)
-            {
-                patrolPoint.parent = parentHolder;
+                if (patrolPoint == patrolPointHolder.transform) continue;
+                patrolPoints.Add(patrolPoint);
             }
         }
 
@@ -56,7 +50,9 @@ namespace Enemies
             base.Attack();
             var projectile = ObjectPoolManager.Instance.GetPooledObject("EnemyProjectile");
             projectile.transform.position = firePoint.position;
-            projectile.GetComponent<Projectile>().SetDirection(-transform.localScale.x, Resources.Load<SpellData>("ScriptableObjects/Spells/Fireball"));
+            projectile.GetComponent<Projectile>().SetDirection(-transform.localScale.x, projectileData);
+            
         }
+        
     }
 }

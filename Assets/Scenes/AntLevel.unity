@@ -1250,7 +1250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snappy: 0
   forceMultiplier: 1000
-  player: {fileID: 1996781594}
+  player: {fileID: 0}
 --- !u!50 &519420034
 Rigidbody2D:
   serializedVersion: 4
@@ -1988,6 +1988,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a15e28e9ffe249d09d3c32a82fe19721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  playerPrefab: {fileID: 0}
   currentLevelData: {fileID: 11400000, guid: 9d71fe5275f4ed34a894f475cff576b1, type: 2}
 --- !u!114 &886910327
 MonoBehaviour:
@@ -2002,8 +2004,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWave: 0
+  currentEnemyCount: 0
+  textDisplayTime: 2.5
   isWaveSpawning: 0
   waveSpawnData: {fileID: 11400000, guid: 14f4264b60d330246b5f440cd45974b2, type: 2}
+  waveHUDPrefab: {fileID: 4682038915188451823, guid: 45fea37427c760c499671598fc6edf07, type: 3}
+  parentHolder: {fileID: 1937992290}
   spawnPoints: []
 --- !u!1 &931591693
 GameObject:
@@ -2032,18 +2038,19 @@ RectTransform:
   m_GameObject: {fileID: 931591693}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 0.5, z: 1}
+  m_LocalScale: {x: 5, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1439061606}
+  - {fileID: 1039408838}
   m_Father: {fileID: 1307743279}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &931591695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2527,17 +2534,17 @@ RectTransform:
   m_GameObject: {fileID: 1039408837}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.19999999, y: 3.3333333, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1307743279}
+  m_Father: {fileID: 931591694}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1039408839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3184,15 +3191,14 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 931591694}
-  - {fileID: 1039408838}
   m_Father: {fileID: 1057945895}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 50}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &1334497692 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6278375785918429763, guid: ee67a11d1b5d1e543a8c83201b6de6f8, type: 3}
@@ -4988,11 +4994,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee67a11d1b5d1e543a8c83201b6de6f8, type: 3}
---- !u!4 &1996781594 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6172835715600082680, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-  m_PrefabInstance: {fileID: 6172835714744164066}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1998419546 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6278375785918429763, guid: ee67a11d1b5d1e543a8c83201b6de6f8, type: 3}
@@ -5558,6 +5559,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6172835715600082624, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 1307743278}
+    - target: {fileID: 6172835715600082624, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
+      propertyPath: healthBarFill
+      value: 
+      objectReference: {fileID: 1439061607}
+    - target: {fileID: 6172835715600082624, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
+      propertyPath: healthBarText
+      value: 
+      objectReference: {fileID: 1039408839}
+    - target: {fileID: 6172835715600082624, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
+      propertyPath: characterStats.baseHealth
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6172835715600082624, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
       propertyPath: onPlayerDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

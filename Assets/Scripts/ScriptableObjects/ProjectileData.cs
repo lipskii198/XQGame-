@@ -2,8 +2,8 @@
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "SpellData", menuName = "ScriptableObjects/SpellData", order = 0)]
-    public class SpellData : ScriptableObject
+    [CreateAssetMenu(fileName = "ProjectileData", menuName = "ScriptableObjects/ProjectileData", order = 0)]
+    public class ProjectileData : ScriptableObject
     {
         [SerializeField] private int id;
         [SerializeField] private string spellName;
@@ -19,8 +19,7 @@ namespace ScriptableObjects
         public int Id => id;
         public string SpellName => spellName;
         public string Description => description;
-        public float Speed => speed;
-        public float TimeToLive => timeToLive;
+        public float Speed => speed; public float TimeToLive => timeToLive;
         public float Damage => damage;
         public float ManaCost => manaCost;
         public float Cooldown => cooldown;

@@ -1,6 +1,8 @@
-﻿using ScriptableObjects;
+﻿using System;
+using ScriptableObjects;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Enemies.Core
@@ -22,6 +24,9 @@ namespace Enemies.Core
         protected Animator animator;
         protected Rigidbody2D rb;
         private UnityEngine.Camera mainCamera;
+        
+        
+        public UnityEvent onDeath = new();
         protected virtual void Awake()
         {
             mainCamera = UnityEngine.Camera.main;
@@ -30,8 +35,7 @@ namespace Enemies.Core
             rb = GetComponent<Rigidbody2D>();
             currentHealth = enemyData.Health;
 
-            parentHolder = new GameObject($"{gameObject.name}_Holder").transform;
-            transform.parent = parentHolder;
+            parentHolder = transform.parent;
         }
 
 
@@ -121,6 +125,7 @@ namespace Enemies.Core
 
         protected virtual void Die()
         {
+            onDeath.Invoke();
             animator.SetTrigger("Death");
             Destroy(parentHolder.gameObject, 2f);
             this.enabled = false;
@@ -141,6 +146,22 @@ namespace Enemies.Core
         {
             var playerPosition = playerTransform.position;
             return Vector2.Distance(playerPosition, transform.position);
+        }
+
+        protected void OnCollisionEnter2D(Collision2D col)
+        {
+            if (col.gameObject.CompareTag("Player"))
+            {
+                rb.mass = 9999;
+            }
+        }
+        
+        protected void OnCollisionExit2D(Collision2D col)
+        {
+            if (col.gameObject.CompareTag("Player"))
+            {
+                rb.mass = 1;
+            }
         }
     }
 }
