@@ -9,7 +9,8 @@ namespace ObjectPooling
         [SerializeField] private List<ObjectPoolItem> itemsToPool;
         [SerializeField] private List<GameObject> pooledObjects = new();
         [SerializeField] private Transform parent;
-        private void Start()
+        
+        public void Initialize()
         {
             parent = new GameObject("ObjectPoolHolder").transform;
             BeginPooling();
@@ -56,6 +57,12 @@ namespace ObjectPooling
                     pooledObjects.Add(obj);
                 }
             }
+        }
+        
+        private void EnsureObjectIsNotActive(GameObject obj)
+        {
+            if (obj.activeInHierarchy)
+                obj.SetActive(false);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using ScriptableObjects;
+﻿using System;
+using Enemies.Core;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Managers
@@ -13,63 +15,68 @@ namespace Managers
      */
     public class GameManager : LazySingletonMono<GameManager>
     {
-        [SerializeField] private GameObject player;
+        [SerializeField] private bool isGamePaused;
+        [SerializeField] private bool isInLevel;
+        [SerializeField] private bool isInCombat;
+        [SerializeField] private bool isInCutscene;
+        [SerializeField] private bool isPlayerDead;
         [SerializeField] private GameObject playerPrefab;
-        [SerializeField] private LevelData currentLevelData;
+        [SerializeField] private AudioSource musicSource;
         
         private WaveManager waveManager;
-        public LevelData GetCurrentLevelData => currentLevelData;
-    
+        private LevelManager levelManager;
+        public GameObject GetPlayerPrefab => playerPrefab;
+        public WaveManager GetWaveManager => waveManager;
+        public LevelManager GetLevelManager => levelManager;
+        
         private void Start()
         {
-            player = GameObject.FindWithTag("Player");
-            
             waveManager = GetComponent<WaveManager>();
-        
-            SetCurrentLevelData("AntsLevel");
-        
-            if (currentLevelData == null)
-            {
-                Debug.LogError("Current level data is null");
-                return;
-            }
-
-            Debug.Log($"Current level: {currentLevelData.LevelName} - {currentLevelData.LevelNumber} - IsBossLevel: {currentLevelData.IsBossLevel} - IsWaveLevel: {currentLevelData.IsWaveLevel}");
-        
-            if(currentLevelData.IsBossLevel)
-                Debug.Log("Boss level");
-            else if(currentLevelData.IsWaveLevel)
-                waveManager.enabled = true;
-            else
-                Debug.Log("Normal level");
+            levelManager = GetComponent<LevelManager>();
         }
 
-        //TODO: Change this to a dictionary
-        public void SetCurrentLevelData(string levelName)
+        private void Update()
         {
-            currentLevelData = Resources.Load<LevelData>($"ScriptableObjects/Levels/LD_{levelName}");
+            if (isInCombat && !musicSource.isPlaying && !isInCutscene && isInLevel)
+            {
+                // Play BGM for combat
+            }
+        }
+
+        public void OnPlayerDeath()
+        {
+            if (isPlayerDead) return;
+            isPlayerDead = true;
+            Debug.Log("Player died");
+            levelManager.GetPlayer.SetActive(false);
+        }
+        
+        public void OnPlayerEnterCombat()
+        {
+            if (isInCombat) return;
+            isInCombat = true;
+            Debug.Log("Player entered combat");
+        }
+        
+        public void OnPlayerExitCombat()
+        {
+            if (!isInCombat) return;
+            isInCombat = false;
+            Debug.Log("Player exited combat");
         }
         
         public void OnLevelLoaded()
         {
-            var spawnPoint = GameObject.FindWithTag("Respawn");
-            player = Instantiate(playerPrefab, spawnPoint.transform.position, Quaternion.identity);
+            if (isInLevel) return;
+            isInLevel = true;
+            Debug.Log("Level loaded");
         }
         
-        public void WinCurrentLevel()
+        public void OnLevelUnloaded()
         {
-            Debug.Log("Win");
-        }
-        
-        public void LoseCurrentLevel()
-        {
-            Debug.Log("Lose");
-        }
-    
-        public void OnPlayerDeath()
-        {
-            Debug.Log("Player died");
-            player.SetActive(false);
+            if (!isInLevel) return;
+            isInLevel = false;
+            Debug.Log("Level unloaded");
         }
     }
 }

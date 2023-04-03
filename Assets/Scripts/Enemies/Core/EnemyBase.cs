@@ -36,14 +36,19 @@ namespace Enemies.Core
             currentHealth = enemyData.Health;
 
             parentHolder = transform.parent;
+            
+            ToggleHealthBar(false);
         }
 
 
         protected virtual void Update()
         {
-            healthBar.transform.position = mainCamera.WorldToScreenPoint(transform.position + new Vector3(0, 2f, 0));
-            healthBarForeground.fillAmount = currentHealth / enemyData.Health;
-            healthBarText.text = $"{currentHealth} / {enemyData.Health}";
+            if (healthBar.activeSelf)
+            {
+                healthBar.transform.position = mainCamera.WorldToScreenPoint(transform.position + new Vector3(0, 2f, 0));
+                healthBarForeground.fillAmount = currentHealth / enemyData.Health;
+                healthBarText.text = $"{currentHealth} / {enemyData.Health}";
+            }
             
             if (currentHealth <= 0)
             {
@@ -121,6 +126,7 @@ namespace Enemies.Core
         {
             currentHealth -= damage;
             animator.SetTrigger("Hurt");
+            isFollowingPlayer = true;
         }
 
         protected virtual void Die()
@@ -129,7 +135,7 @@ namespace Enemies.Core
             animator.SetTrigger("Death");
             Destroy(parentHolder.gameObject, 2f);
             this.enabled = false;
-            healthBar.SetActive(false);
+            ToggleHealthBar(false);
         }
         
         protected virtual void FaceDirection(Vector2 direction)
@@ -162,6 +168,13 @@ namespace Enemies.Core
             {
                 rb.mass = 1;
             }
+        }
+        
+        public void ToggleHealthBar(bool value)
+        {
+            if (value && currentHealth <= 0)
+                return;
+            healthBar.SetActive(value);
         }
     }
 }
