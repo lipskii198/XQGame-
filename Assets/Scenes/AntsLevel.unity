@@ -686,6 +686,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 9075667267798438996, guid: ee67a11d1b5d1e543a8c83201b6de6f8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee67a11d1b5d1e543a8c83201b6de6f8, type: 3}
 --- !u!1001 &262651670
@@ -1250,7 +1254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snappy: 0
   forceMultiplier: 1000
-  player: {fileID: 0}
+  player: {fileID: 736357249}
 --- !u!50 &519420034
 Rigidbody2D:
   serializedVersion: 4
@@ -1647,6 +1651,11 @@ Transform:
   m_Father: {fileID: 76807475}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &736357249 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6172835715600082680, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
+  m_PrefabInstance: {fileID: 6172835714744164066}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &779478995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1932,6 +1941,7 @@ GameObject:
   - component: {fileID: 886910324}
   - component: {fileID: 886910326}
   - component: {fileID: 886910325}
+  - component: {fileID: 886910328}
   - component: {fileID: 886910327}
   m_Layer: 0
   m_Name: GameManager
@@ -1988,9 +1998,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a15e28e9ffe249d09d3c32a82fe19721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  playerPrefab: {fileID: 0}
-  currentLevelData: {fileID: 11400000, guid: 9d71fe5275f4ed34a894f475cff576b1, type: 2}
+  isGamePaused: 0
+  isInLevel: 0
+  isInCombat: 0
+  isInCutscene: 0
+  isPlayerDead: 0
+  playerPrefab: {fileID: 6172835715600082682, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
+  musicSource: {fileID: 0}
 --- !u!114 &886910327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2011,6 +2025,22 @@ MonoBehaviour:
   waveHUDPrefab: {fileID: 4682038915188451823, guid: 45fea37427c760c499671598fc6edf07, type: 3}
   parentHolder: {fileID: 1937992290}
   spawnPoints: []
+--- !u!114 &886910328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886910322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c271096f5824002bceb589a29549eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  failedLevelCount: 0
+  isLevelLoaded: 0
+  player: {fileID: 0}
+  currentLevelData: {fileID: 0}
 --- !u!1 &931591693
 GameObject:
   m_ObjectHideFlags: 0
@@ -5627,6 +5657,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ' Player'
       objectReference: {fileID: 0}
+    - target: {fileID: 6172835715600082683, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 6172835715600082686, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
       propertyPath: m_Interpolate
       value: 1

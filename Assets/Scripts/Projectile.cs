@@ -38,7 +38,10 @@ public class Projectile : MonoBehaviour
             // Enemy -> EnemyManager.TakeDamage
             
             case "Enemy":
-                collision.GetComponent<EnemyBase>().TakeDamage(projectileData.Damage);
+                var enemy = collision.GetComponent<EnemyBase>();
+                enemy.TakeDamage(projectileData.Damage);
+                LevelManager.Instance.GetPlayer.GetComponent<PlayerManager>().SetTarget(enemy);
+                GameManager.Instance.OnPlayerEnterCombat();
                 break;
             case "Player":
                 collision.GetComponent<PlayerManager>().TakeDamage(projectileData.Damage);

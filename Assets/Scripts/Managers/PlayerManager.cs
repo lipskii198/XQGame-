@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Enemies.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -25,7 +26,7 @@ namespace Managers
         public UnityEvent onPlayerDeath;
         
         private SpriteRenderer spriteRenderer;
-        
+        private EnemyBase currentTarget;
         private void Start()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
@@ -97,6 +98,15 @@ namespace Managers
             isPlayerInvulnerable = false;
         }
         
+        public void SetTarget(EnemyBase enemyBase)
+        {
+            if (currentTarget != null)
+            {
+                currentTarget.ToggleHealthBar(false);
+            }
+            currentTarget = enemyBase;
+            enemyBase.ToggleHealthBar(true);
+        }
     }
 }
 

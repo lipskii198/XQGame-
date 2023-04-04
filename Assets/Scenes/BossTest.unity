@@ -1214,6 +1214,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a15e28e9ffe249d09d3c32a82fe19721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGamePaused: 0
+  isInLevel: 0
+  isInCombat: 0
+  isInCutscene: 0
+  isPlayerDead: 0
+  playerPrefab: {fileID: 0}
+  musicSource: {fileID: 0}
 --- !u!4 &921505616 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 547349350693698449, guid: ee67a11d1b5d1e543a8c83201b6de6f8, type: 3}
@@ -2677,7 +2684,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

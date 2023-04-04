@@ -170,7 +170,7 @@ Transform:
   - {fileID: 405473516}
   - {fileID: 147966413}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &102008817
 PrefabInstance:
@@ -261,14 +261,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: ff43cef96b9a84545b5f6a92e2e7d5c8, type: 2}
-  currentHealth: 0
   timeSinceLastAttack: 0
   isFollowingPlayer: 0
+  currentHealth: 0
+  healthBar: {fileID: 0}
+  healthBarForeground: {fileID: 0}
+  healthBarText: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  projectileData: {fileID: 0}
+  patrolPointHolder: {fileID: 0}
   patrolPoints:
   - {fileID: 207216734}
   - {fileID: 1082555607}
   targetPatrolPoint: {fileID: 0}
   currentPatrolIndex: 0
+  firePoint: {fileID: 0}
 --- !u!1001 &284407751
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -686,7 +695,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
 MonoBehaviour:
@@ -852,7 +861,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -897,7 +906,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &657970016
 MonoBehaviour:
@@ -932,14 +941,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: ff43cef96b9a84545b5f6a92e2e7d5c8, type: 2}
-  currentHealth: 0
   timeSinceLastAttack: 0
   isFollowingPlayer: 0
+  currentHealth: 0
+  healthBar: {fileID: 0}
+  healthBarForeground: {fileID: 0}
+  healthBarText: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  projectileData: {fileID: 0}
+  patrolPointHolder: {fileID: 0}
   patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
   targetPatrolPoint: {fileID: 0}
   currentPatrolIndex: 0
+  firePoint: {fileID: 0}
 --- !u!50 &657970018
 Rigidbody2D:
   serializedVersion: 4
@@ -1067,7 +1085,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &886910325
 MonoBehaviour:
@@ -1102,6 +1120,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a15e28e9ffe249d09d3c32a82fe19721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGamePaused: 0
+  isInLevel: 0
+  isInCombat: 0
+  isInCutscene: 0
+  isPlayerDead: 0
+  playerPrefab: {fileID: 0}
+  musicSource: {fileID: 0}
 --- !u!4 &921505616 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 547349350693698449, guid: ee67a11d1b5d1e543a8c83201b6de6f8, type: 3}
@@ -2125,7 +2150,7 @@ RectTransform:
   - {fileID: 2004143013}
   - {fileID: 459389238}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

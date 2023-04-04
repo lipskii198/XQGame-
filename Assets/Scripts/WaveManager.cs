@@ -21,6 +21,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private Transform parentHolder;
     [SerializeField] private List<Transform> spawnPoints;
     
+    private LevelManager levelManager;
     private TMP_Text waveCounterText;
     private TMP_Text newWaveText;
     private static Transform SpawnPointParent => GameObject.Find("SpawnPoints").transform;
@@ -32,7 +33,9 @@ public class WaveManager : MonoBehaviour
 
     private void Start()
     {
-        waveSpawnData = Resources.Load<WaveSpawnData>($"ScriptableObjects/Waves/WD_{GameManager.Instance.GetCurrentLevelData.LevelName}");
+        levelManager = GetComponent<LevelManager>();
+
+        waveSpawnData = Resources.Load<WaveSpawnData>($"ScriptableObjects/Waves/WD_{levelManager.GetCurrentLevelData.LevelName}");
 
         if (waveSpawnData == null || waveSpawnData.EnemiesPrefabs.Count == 0  || !EnsureEnemyPrefabIsValid()){
             Debug.LogError($"WaveSpawnData ({waveSpawnData.name}) is invalid");
@@ -41,7 +44,7 @@ public class WaveManager : MonoBehaviour
 
         if (SpawnPointParent == null || SpawnPointParent.childCount == 0)
         {
-            Debug.LogError($"SpawnPointParent ({GameManager.Instance.GetCurrentLevelData.LevelName}) is invalid");
+            Debug.LogError($"SpawnPointParent ({levelManager.GetCurrentLevelData.LevelName}) is invalid");
             this.enabled = false;
         }
         
@@ -49,6 +52,8 @@ public class WaveManager : MonoBehaviour
         {
             spawnPoints.Add(SpawnPointParent.GetChild(i));
         }
+        
+        parentHolder = GameObject.Find("UICanvas").transform;
 
         var waveHud = Instantiate(waveHUDPrefab, parentHolder);
         
@@ -63,7 +68,7 @@ public class WaveManager : MonoBehaviour
             StartCoroutine(BeginWaveSpawn());
         
         if (currentWave >= waveSpawnData.MaxWaves)
-            GameManager.Instance.WinCurrentLevel();
+            levelManager.WinLevel();
     }
     
     private IEnumerator BeginWaveSpawn()

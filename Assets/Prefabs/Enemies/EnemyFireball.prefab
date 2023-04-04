@@ -56,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -137,7 +137,7 @@ Rigidbody2D:
   m_Constraints: 0
 --- !u!95 &6745745497190551455
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -154,7 +154,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &-8044712905526363030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,4 +167,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3357c2f70943e4e9930b5cafba13a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTag: Player
