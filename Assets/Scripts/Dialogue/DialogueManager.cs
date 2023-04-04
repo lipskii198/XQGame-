@@ -18,8 +18,14 @@ public class DialogueManager : MonoBehaviour
     public TextMeshPro speech;
 
     public Animator animator;
+
+    [SerializeField] float timeBtwChars = 0.03f;
+
+    bool typing = false;
+
+    string currentSentence = "";
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         dialogues = new Queue<Dialogue>();
         sentences = new Queue<string>();
@@ -39,6 +45,7 @@ public class DialogueManager : MonoBehaviour
 
     public void EnqueueDialogue(Dialogue d)
     {
+        Debug.Log("got here");
         dialogues.Enqueue(d);
     }
 
@@ -46,14 +53,14 @@ public class DialogueManager : MonoBehaviour
     {
         sequenceStarted = true;
 
+
         DisplayNext();
 
     }
 
     public void DisplayNextDialogue()
-    {   
+    {
         Dialogue d = dialogues.Dequeue();
-        Debug.Log("starting dialogue " + d.name);
         nameText.text = d.name;
         animator.SetBool("isOpen", true);
         sentences.Clear();
@@ -80,7 +87,11 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNext()
     {
-        if (sentences.Count == 0 && dialogues.Count == 0)
+        if (typing)
+        {
+            DisplayNextSentence();
+        }
+        else if (sentences.Count == 0 && dialogues.Count == 0)
         {
             EndDialogue();
         }
@@ -93,26 +104,42 @@ public class DialogueManager : MonoBehaviour
             DisplayNextSentence();
         }
     }
-    
-    IEnumerator TypeSentence(string sentence) {
+
+    IEnumerator TypeSentence()
+    {
         speech.text = "";
-        foreach (char letter in sentence.ToCharArray()) {
+        typing = true;
+        foreach (char letter in currentSentence.ToCharArray())
+        {
             speech.text += letter;
-            yield return null;
+            yield return new WaitForSeconds(timeBtwChars); ;
         }
+        typing = false;
     }
 
     //Called whenever the player hits the next button in the dialogue box
     public void DisplayNextSentence()
     {
 
-        string sentence = sentences.Dequeue();
-        StopAllCoroutines();
-        StartCoroutine(TypeSentence(sentence));
+        if (typing == true)
+        {
+            //finish sentence
+            StopAllCoroutines();
+            EndSentence();
+            typing = false;
+            Debug.Log("ended sentence early");
+        }
+        else
+        {
+            currentSentence = sentences.Dequeue();
+            StartCoroutine(TypeSentence());
+        }
 
-        Debug.Log(sentence);
+    }
 
-
+    public void EndSentence()
+    {
+        speech.text = currentSentence;
     }
     //Probably need to do some garbage collection, will look into later
     void EndDialogue()

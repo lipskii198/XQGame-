@@ -5,13 +5,19 @@ using YamlDotNet.Serialization.NamingConventions;
 using UnityEngine;
 using System.IO;
 
-public class DialogueTrigger : MonoBehaviour
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/DialogueTrigger", order = 1)]
+public class DialogueTrigger : ScriptableObject
 {
-    public string filePath;
+    public string dialoguePath = "";
+
+    void Start()
+    {
+        TriggerDialogue();
+    }
     //Attach this trigger to whatever you want. A button, entering a level, etc
     //Specify the dialogue you want with a yaml file and that's it!
     public void TriggerDialogue() {
-        filePath = Application.dataPath + "/Cutscenes/sample-yaml.yaml";
+        string filePath = Application.dataPath + "/" + dialoguePath;
         
         // Read the YAML file using a StreamReader
         StreamReader reader = new StreamReader(filePath);
@@ -22,6 +28,7 @@ public class DialogueTrigger : MonoBehaviour
         foreach (var item in result) {
             foreach (var dialogue in item) {
                 //Push every dialogue item into the dialogue manager to be rendered
+                Debug.Log(dialogue.Value.name);
                 manager.EnqueueDialogue(dialogue.Value);
             }
         }
