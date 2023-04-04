@@ -25,7 +25,7 @@ public class DialogueManager : MonoBehaviour
 
     string currentSentence = "";
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         dialogues = new Queue<Dialogue>();
         sentences = new Queue<string>();
@@ -45,6 +45,7 @@ public class DialogueManager : MonoBehaviour
 
     public void EnqueueDialogue(Dialogue d)
     {
+        Debug.Log("got here");
         dialogues.Enqueue(d);
     }
 

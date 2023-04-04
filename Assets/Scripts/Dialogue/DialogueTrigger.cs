@@ -5,9 +5,10 @@ using YamlDotNet.Serialization.NamingConventions;
 using UnityEngine;
 using System.IO;
 
-public class DialogueTrigger : MonoBehaviour
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/DialogueTrigger", order = 1)]
+public class DialogueTrigger : ScriptableObject
 {
-    public string dialoguePath;
+    public string dialoguePath = "";
 
     void Start()
     {
