@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 using TMPro;
 
 public class DialogueManager : MonoBehaviour
@@ -24,6 +25,10 @@ public class DialogueManager : MonoBehaviour
     bool typing = false;
 
     string currentSentence = "";
+
+    public SpriteRenderer spriteRenderer;
+    public Sprite newSprite;
+    GameObject spriteObject;
     // Start is called before the first frame update
     void Awake()
     {
@@ -45,7 +50,6 @@ public class DialogueManager : MonoBehaviour
 
     public void EnqueueDialogue(Dialogue d)
     {
-        Debug.Log("got here");
         dialogues.Enqueue(d);
     }
 
@@ -64,6 +68,26 @@ public class DialogueManager : MonoBehaviour
         nameText.text = d.name;
         animator.SetBool("isOpen", true);
         sentences.Clear();
+
+        //Render character sprite
+        if (d.sprite != "" && File.Exists(Application.dataPath + "/Resources/" + d.sprite)) {
+            Debug.Log(Application.dataPath + "/Resources/" + d.sprite);
+            byte[] fileData = File.ReadAllBytes(Application.dataPath + "/Resources/" + d.sprite);
+            if (fileData.Length > 0) {
+                // Create a new GameObject
+                spriteObject = new GameObject("SpriteObject");
+                spriteRenderer = spriteObject.AddComponent<SpriteRenderer>();
+                Texture2D texture = new Texture2D(2, 2);
+                texture.LoadImage(fileData);
+
+                Rect rect = new Rect(0, 0, texture.width, texture.height);
+                Sprite sprite = Sprite.Create(texture, rect, Vector2.zero);
+                spriteRenderer.sprite = sprite;
+            } else {
+                Debug.Log("couldnt get sprite from " + d.sprite);
+            }
+        }
+
         //Play audio
         if (d.audio.file != "")
         {
@@ -73,8 +97,7 @@ public class DialogueManager : MonoBehaviour
             // Play the audio clip
             if (audioClip != null) AudioSource.PlayClipAtPoint(audioClip, audioPosition, d.audio.volume);
         }
-        //Render character sprite
-        //Render dialogue box
+
 
         foreach (string sentence in d.sentences)
         {
@@ -145,6 +168,7 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         sequenceStarted = false;
+        if (spriteObject) Destroy(spriteObject);
         animator.SetBool("isOpen", false);
         //Remove character sprite
         Debug.Log("ending dialogue");

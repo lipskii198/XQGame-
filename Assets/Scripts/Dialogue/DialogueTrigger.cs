@@ -28,7 +28,7 @@ public class DialogueTrigger : ScriptableObject
         foreach (var item in result) {
             foreach (var dialogue in item) {
                 //Push every dialogue item into the dialogue manager to be rendered
-                Debug.Log(dialogue.Value.name);
+                
                 manager.EnqueueDialogue(dialogue.Value);
             }
         }
