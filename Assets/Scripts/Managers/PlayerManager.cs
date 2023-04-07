@@ -26,11 +26,19 @@ namespace Managers
         public UnityEvent onPlayerDeath;
         
         private SpriteRenderer spriteRenderer;
+        private Rigidbody2D rb;
+        private Animator animator;
         private EnemyBase currentTarget;
+        private SpellsManager spellsManager;
         private void Start()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+            rb = GetComponent<Rigidbody2D>();
+            animator = GetComponent<Animator>();
+            spellsManager = GetComponent<SpellsManager>();
             UpdateStats(recalculateStats:true);
+            
+            onPlayerDeath.AddListener(GameManager.Instance.OnPlayerDeath);
         }
 
         private void Update()
@@ -38,9 +46,9 @@ namespace Managers
             healthBarFill.fillAmount = currentHealth / GetCharacterStats.health;
             healthBarText.text = $"{currentHealth} / {GetCharacterStats.health}";
             
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetButtonDown("Fire1"))
             {
-                TakeDamage(1f);
+                CastSpell();
             }
         }
 
@@ -65,17 +73,22 @@ namespace Managers
         {
             if (isPlayerInvulnerable) return;
             
-            currentHealth = Mathf.Clamp(currentHealth - damage, 0, characterStats.health);
-            if (currentHealth <= 0)
+            if (currentHealth - damage <= 0)
             {
+                currentHealth = 0;
                 Die();
+                return;
             }
-            else
-            {
-                StartCoroutine(BeginInvulnerability());
-            }
+            
+            currentHealth -= damage;
+            StartCoroutine(BeginInvulnerability());
         }
-
+        
+        public void Heal(float healAmount)
+        {
+            currentHealth += healAmount;
+        }
+        
         public void Die()
         {
             healthBar.SetActive(false);
@@ -106,6 +119,12 @@ namespace Managers
             }
             currentTarget = enemyBase;
             enemyBase.ToggleHealthBar(true);
+        }
+        
+        public void CastSpell()
+        {
+            animator.SetTrigger("Attack");
+            spellsManager.Cast("Fireball");
         }
     }
 }

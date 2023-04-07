@@ -26,6 +26,11 @@ namespace Managers
             
             
             var spellObj = ObjectPoolManager.Instance.GetPooledObject("PlayerProjectile");
+            if (spellObj == null)
+            {
+                Debug.LogError("No pooled objects available");
+                return;
+            }
             spellObj.transform.position = projectileSpawnPoint.position;
             spellObj.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x), spells[spellName]);
         }

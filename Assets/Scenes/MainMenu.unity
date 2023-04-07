@@ -606,8 +606,7 @@ MonoBehaviour:
   isInCombat: 0
   isInCutscene: 0
   isPlayerDead: 0
-  playerPrefab: {fileID: 6172835715600082682, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-  musicSource: {fileID: 874143102}
+  playerPrefab: {fileID: 0}
 --- !u!4 &373508826
 Transform:
   m_ObjectHideFlags: 0

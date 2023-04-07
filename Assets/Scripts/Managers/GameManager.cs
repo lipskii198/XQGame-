@@ -2,6 +2,7 @@
 using Enemies.Core;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Managers
 {
@@ -21,27 +22,18 @@ namespace Managers
         [SerializeField] private bool isInCutscene;
         [SerializeField] private bool isPlayerDead;
         [SerializeField] private GameObject playerPrefab;
-        [SerializeField] private AudioSource musicSource;
         
         private WaveManager waveManager;
         private LevelManager levelManager;
         public GameObject GetPlayerPrefab => playerPrefab;
         public WaveManager GetWaveManager => waveManager;
         public LevelManager GetLevelManager => levelManager;
-        
         private void Start()
         {
             waveManager = GetComponent<WaveManager>();
             levelManager = GetComponent<LevelManager>();
         }
-
-        private void Update()
-        {
-            if (isInCombat && !musicSource.isPlaying && !isInCutscene && isInLevel)
-            {
-                // Play BGM for combat
-            }
-        }
+        
 
         public void OnPlayerDeath()
         {

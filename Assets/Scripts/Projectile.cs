@@ -6,12 +6,13 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private ProjectileData projectileData;
+    private float direction;
     private bool hit;
+    private ProjectileData projectileData;
     private BoxCollider2D boxCollider;
     private Animator anim;
-    private float direction;
     // Start is called before the first frame update
+
     void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();

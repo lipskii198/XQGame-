@@ -23,13 +23,13 @@ namespace Enemies.Core
         protected Transform parentHolder;
         protected Animator animator;
         protected Rigidbody2D rb;
-        private UnityEngine.Camera mainCamera;
+        private Camera mainCamera;
         
         
         public UnityEvent onDeath = new();
         protected virtual void Awake()
         {
-            mainCamera = UnityEngine.Camera.main;
+            mainCamera = Camera.main;
             playerTransform = GameObject.FindWithTag("Player").transform;
             animator = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
@@ -38,6 +38,8 @@ namespace Enemies.Core
             parentHolder = transform.parent;
             
             ToggleHealthBar(false);
+            
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), playerTransform.GetComponent<Collider2D>());
         }
 
 

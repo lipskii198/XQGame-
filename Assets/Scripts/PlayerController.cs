@@ -1,6 +1,9 @@
+using System;
 using Managers;
 using UnityEngine;
 
+
+[Obsolete("Replaced by Dev/CharacterController2D Soon™")]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float wallJumpCooldown;
