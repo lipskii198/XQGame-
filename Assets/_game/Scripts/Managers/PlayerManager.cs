@@ -112,12 +112,7 @@ namespace _game.Scripts.Managers
         
         public void SetTarget(EnemyBase enemyBase)
         {
-            if (currentTarget != null)
-            {
-                currentTarget.ToggleHealthBar(false);
-            }
             currentTarget = enemyBase;
-            enemyBase.ToggleHealthBar(true);
         }
         
         public void CastSpell()

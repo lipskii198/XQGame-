@@ -22,6 +22,8 @@ namespace _game.Scripts.Enemies
                 if (patrolPoint == patrolPointHolder.transform) continue;
                 patrolPoints.Add(patrolPoint);
             }
+            
+            isFacingRight = false;
         }
 
         protected override void Patrol()

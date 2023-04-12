@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 786ff7daeb2452542b6e018c9b47f468
+guid: a899bb35f059adb489184507e572c485
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -121,7 +121,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 21
-        y: 12
+        y: 4
         width: 89
         height: 86
       alignment: 0
@@ -131,8 +131,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7071d15d6e95d0c4890086c43dd1c3b8
-      internalID: -647066018
+      spriteID: 2fc96fdac5dab874cab124adc9441699
+      internalID: -989692010
       vertices: []
       indices: 
       edges: []
@@ -142,7 +142,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 140
-        y: 21
+        y: 6
         width: 97
         height: 48
       alignment: 0
@@ -152,8 +152,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c79994cf1245db459bb23764d59055a
-      internalID: 214455455
+      spriteID: 76c5153e6fce42f4c9f21a5d233c77e8
+      internalID: -2052819005
       vertices: []
       indices: 
       edges: []
@@ -163,9 +163,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 257
-        y: 8
+        y: 1
         width: 118
-        height: 42
+        height: 41
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,8 +173,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: deaae6abb8c8f004b992cdb390b777b7
-      internalID: -899620348
+      spriteID: 6303443b17c20c748a01d97c44af866a
+      internalID: 75994987
       vertices: []
       indices: 
       edges: []
@@ -190,9 +190,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ant_black_dead_1: 214455455
-      ant_black_dead_0: -647066018
-      ant_black_dead_2: -899620348
+      ant_black_dead_1: -2052819005
+      ant_black_dead_0: -989692010
+      ant_black_dead_2: 75994987
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

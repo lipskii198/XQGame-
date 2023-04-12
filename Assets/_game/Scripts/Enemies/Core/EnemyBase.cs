@@ -1,4 +1,6 @@
-﻿using _game.Scripts.ScriptableObjects;
+﻿using System;
+using System.Collections;
+using _game.Scripts.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,21 +11,19 @@ namespace _game.Scripts.Enemies.Core
     public abstract class EnemyBase : MonoBehaviour
     {
         [SerializeField] protected EnemyData enemyData;
-        [SerializeField] protected float timeSinceLastAttack;
-        [SerializeField] protected bool isFollowingPlayer;
-        
-        [Header("Health Info")]
         [SerializeField] protected float currentHealth;
-        [SerializeField] protected GameObject healthBar;
-        [SerializeField] protected Image healthBarForeground; 
-        [SerializeField] protected TMP_Text healthBarText;
+        [SerializeField] protected float timeSinceLastAttack;
+        [SerializeField] protected float deathFadeTime = 1.5f;
+        [SerializeField] protected bool isFollowingPlayer;
+        [SerializeField] protected bool canMove;
         
+        protected bool isFacingRight = true;
         protected Transform playerTransform;
         protected Transform parentHolder;
         protected Animator animator;
         protected Rigidbody2D rb;
         private Camera mainCamera;
-        
+
         
         public UnityEvent onDeath = new();
         protected virtual void Awake()
@@ -36,30 +36,27 @@ namespace _game.Scripts.Enemies.Core
 
             parentHolder = transform.parent;
             
-            ToggleHealthBar(false);
-            
-            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), playerTransform.GetComponent<Collider2D>());
+            IgnoreCollisionWithPlayer();
+
         }
 
+        private void IgnoreCollisionWithPlayer()
+        {
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), playerTransform.GetComponent<Collider2D>());
+        }
+        
 
         protected virtual void Update()
         {
-            if (healthBar.activeSelf)
-            {
-                healthBar.transform.position = mainCamera.WorldToScreenPoint(transform.position + new Vector3(0, 2f, 0));
-                healthBarForeground.fillAmount = currentHealth / enemyData.Health;
-                healthBarText.text = $"{currentHealth} / {enemyData.Health}";
-            }
-            
             if (currentHealth <= 0)
             {
                 Die();
                 return;
             }
-
+            
         }
 
-        private void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
             if (GetDistanceToPlayer() <= enemyData.AttackRange)
             {
@@ -123,6 +120,8 @@ namespace _game.Scripts.Enemies.Core
             animator.SetTrigger("Attack");
         }
 
+        
+        //TODO: Disable movement when hit / in hurt animation
         public virtual void TakeDamage(float damage)
         {
             currentHealth -= damage;
@@ -134,25 +133,50 @@ namespace _game.Scripts.Enemies.Core
         {
             onDeath.Invoke();
             animator.SetTrigger("Death");
-            Destroy(parentHolder.gameObject, 2f);
+            StartCoroutine(DeathFade());
             this.enabled = false;
-            ToggleHealthBar(false);
         }
-        
+
         protected virtual void FaceDirection(Vector2 direction)
         {
-            transform.localScale = direction.x switch
+            if (direction.x > 0 && !isFacingRight)
             {
-                < 0 => new Vector3(1, 1, 1),
-                > 0 => new Vector3(-1, 1, 1),
-                _ => transform.localScale
-            };
+                Flip();
+            }
+            else if (direction.x < 0 && isFacingRight)
+            {
+                Flip();
+            }
+        }
+        
+        protected void Flip()
+        {
+            isFacingRight = !isFacingRight;
+            var scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
         }
         
         protected float GetDistanceToPlayer()
         {
             var playerPosition = playerTransform.position;
             return Vector2.Distance(playerPosition, transform.position);
+        }
+        
+        protected IEnumerator DeathFade()
+        {
+            var spriteRenderer = GetComponent<SpriteRenderer>();
+            var color = spriteRenderer.color;
+            
+            yield return new WaitForSeconds(deathFadeTime);
+            
+            while (color.a > 0)
+            {
+                color.a -= Time.deltaTime;
+                spriteRenderer.color = color;
+                yield return null;
+            }
+            Destroy(parentHolder.gameObject);
         }
 
         protected void OnCollisionEnter2D(Collision2D col)
@@ -169,13 +193,6 @@ namespace _game.Scripts.Enemies.Core
             {
                 rb.mass = 1;
             }
-        }
-        
-        public void ToggleHealthBar(bool value)
-        {
-            if (value && currentHealth <= 0)
-                return;
-            healthBar.SetActive(value);
         }
     }
 }
