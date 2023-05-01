@@ -13,9 +13,12 @@ namespace _game.Scripts.Dev
         [SerializeField] private bool isDoubleJumping;
         [SerializeField] private bool canDoubleJump;
         [SerializeField] private LayerMask groundLayer;
+        
 
         private bool isFacingRight = true;
         private float movementInput;
+        private bool charging = false;
+        private float startCharge = 0.0f;
         private Rigidbody2D rb;
         private Animator animator;
 
@@ -36,8 +39,24 @@ namespace _game.Scripts.Dev
         }
 
         private void Update()
-        {
-            if (Input.GetButtonDown("Jump"))
+        {   
+            //Charged jump
+            if (Input.GetKey(KeyCode.LeftShift)) {
+                Debug.Log("charging");   
+                if (!charging) {
+                    startCharge = Time.time;
+                    charging = true;
+                }
+                //Get time key was pressed
+            } else if (charging) {
+                charging=false;
+                //Get timestamp,
+                float chargedForce = (Time.time - startCharge) * jumpForce;
+                chargedForce = Mathf.Clamp(chargedForce, 0.0f, 40.0f);
+                Debug.Log("JUMPED with force " + chargedForce);
+                rb.velocity = new Vector2(rb.velocity.x, chargedForce); 
+            }
+            else if (Input.GetButtonDown("Jump"))
             {
                 if (isGrounded)
                 {
