@@ -34,8 +34,8 @@ namespace Managers
 
         private void Update()
         {
-            healthBarFill.fillAmount = currentHealth / GetCharacterStats.health;
-            healthBarText.text = $"{currentHealth} / {GetCharacterStats.health}";
+            //healthBarFill.fillAmount = currentHealth / GetCharacterStats.health;
+            //healthBarText.text = $"{currentHealth} / {GetCharacterStats.health}";
             
             if (Input.GetKeyDown(KeyCode.E))
             {

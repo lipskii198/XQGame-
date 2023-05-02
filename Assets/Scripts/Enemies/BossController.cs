@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Managers;
 
 namespace Enemies
 {
@@ -11,27 +12,56 @@ namespace Enemies
         [SerializeField] private float currentHealth;
         [SerializeField] private float bossMovementSpeed;
         [SerializeField] private float attackRange;
-        [SerializeField] private float attackCooldown;
+        
         
         [SerializeField] private BossState currentState;
         [SerializeField] private bool isFightTriggered;
         [SerializeField] private Image bossHealthBar;
         [SerializeField] private GameObject fightTrigger;
 
+        [Header("attack")]
+        [SerializeField] private float attackCooldown;
+        [SerializeField] float jumpHeight;
+        [SerializeField] float damage;
+
+        
+        
+        [SerializeField] Transform player;
+        [SerializeField] LayerMask groundLayer;
+        [SerializeField] LayerMask playerLayer;
+        [SerializeField] Transform groundCheck;
+        [SerializeField] Transform boss;
+        [SerializeField] Vector2 boxSize;
+        [SerializeField] Vector2 hitSize;
+        [SerializeField] Vector2 knockback;
+        [SerializeField] BoxCollider2D bossCollider;
+        [SerializeField] Rigidbody2D playerRB;
+
+        private Rigidbody2D bossRB;
+        private bool isGrounded;
+        private bool canAttack;
+        private float time;
+        private float startY;
+
 
         [Header("Debug")] [SerializeField] private TMP_Text stateText;
 
         private GameObject playerObject;
-        private new Rigidbody2D rigidbody;
         private void Start()
         {
-            rigidbody = GetComponent<Rigidbody2D>();
+            bossRB = GetComponent<Rigidbody2D>();
             currentState = BossState.Idle;
             playerObject = GameObject.FindWithTag("Player");
+            time = 0;
+            startY = boss.position.y;
         }
 
         private void Update()
         {
+            time += Time.deltaTime;
+            isGrounded = Physics2D.OverlapBox(groundCheck.position, boxSize, 0, groundLayer);
+            canAttack = Physics2D.OverlapBox(groundCheck.position, hitSize, 0, playerLayer);
+
             if (currentHealth <= 0)
             {
                 Debug.Log("Boss: *Dies* ");
@@ -50,7 +80,20 @@ namespace Enemies
                     OnAttackCheck();
                     break;
             }
-            
+            if (time > attackCooldown && isGrounded)
+            {
+                time = 0;
+                JumpAttack();
+
+            }
+            if( canAttack && landing())
+            {
+                StartCoroutine(AllowEscape());
+                player.GetComponent<PlayerManager>().TakeDamage(damage);
+                playerRB.AddForce(knockback, ForceMode2D.Impulse);
+                bossRB.AddForce(new Vector2(0, 3), ForceMode2D.Impulse); ;
+            }
+
             stateText.text = $"BossState: {currentState}\n isFightTriggered: {isFightTriggered}";
             bossHealthBar.fillAmount = currentHealth / 100;
         }
@@ -71,12 +114,12 @@ namespace Enemies
             
             if (GetDistanceToPlayer() <= attackRange)
             {
-                rigidbody.velocity = Vector2.zero;
+                bossRB.velocity = Vector2.zero;
                 currentState = BossState.Attacking;
             }
             else
             {
-                rigidbody.velocity = (playerPosition - bossPosition).normalized * bossMovementSpeed;
+                bossRB.velocity = (playerPosition - bossPosition).normalized * bossMovementSpeed;
             }
         }
 
@@ -87,12 +130,7 @@ namespace Enemies
         }
 
 
-        private float GetDistanceToPlayer()
-        {
-            var playerPosition = playerObject.transform.position;
-            var distanceToPlayer = Vector2.Distance(playerPosition, transform.position);
-            return distanceToPlayer;
-        }
+
 
         private IEnumerator Attack()
         {
@@ -118,7 +156,33 @@ namespace Enemies
             Moving, // Following the player
             Attacking, // Basic attack?
             Cooldown, // Rest after attacking?
+        }        
+        private float GetDistanceToPlayer()
+        {
+            return player.position.x - boss.position.x;
         }
-
+        private void JumpAttack()
+        {
+            bossRB.AddForce(new Vector2(GetDistanceToPlayer(), jumpHeight), ForceMode2D.Impulse);
+        }
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawCube(groundCheck.position, boxSize);
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(groundCheck.position, hitSize);
+        }
+        private bool landing()
+        {
+            if (boss.position.y < startY + 2 && bossRB.velocity.y < 0)
+                return true;
+            return false;
+        }
+        private IEnumerator AllowEscape()
+        {
+            bossCollider.enabled = false;
+            yield return new WaitForSeconds(1);
+            bossCollider.enabled = true;
+        }
     }
 }
