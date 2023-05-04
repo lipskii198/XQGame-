@@ -42,8 +42,8 @@ namespace _game.Scripts.Managers
 
         private void Update()
         {
-            healthBarFill.fillAmount = currentHealth / GetCharacterStats.health;
-            healthBarText.text = $"{currentHealth} / {GetCharacterStats.health}";
+            //healthBarFill.fillAmount = currentHealth / GetCharacterStats.health;
+            //healthBarText.text = $"{currentHealth} / {GetCharacterStats.health}";
             
             if (Input.GetButtonDown("Fire1"))
             {
