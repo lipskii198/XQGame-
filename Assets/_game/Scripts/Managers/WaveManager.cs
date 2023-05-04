@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using _game.Scripts.Enemies.Core;
-using _game.Scripts.Managers;
 using _game.Scripts.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 
-namespace _game.Scripts
+namespace _game.Scripts.Managers
 {
     public class WaveManager : MonoBehaviour
     {

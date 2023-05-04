@@ -1,6 +1,7 @@
 using System.Collections;
 using _game.Scripts.Enemies.Core;
 using _game.Scripts.Managers;
+using _game.Scripts.Player;
 using _game.Scripts.ScriptableObjects;
 using UnityEngine;
 

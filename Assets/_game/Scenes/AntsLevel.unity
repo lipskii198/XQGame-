@@ -5474,30 +5474,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -2157551863546276987, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: isJumping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2157551863546276987, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: jumpForce
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: -2157551863546276987, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: isGrounded
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2157551863546276987, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: movementSpeed
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: -2157551863546276987, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: isDoubleJumping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2157551863546276987, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: doubleJumpCooldown
-      value: 1.43
-      objectReference: {fileID: 0}
     - target: {fileID: 6172835715600082624, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
       propertyPath: healthBar
       value: 
@@ -5510,14 +5486,6 @@ PrefabInstance:
       propertyPath: healthBarText
       value: 
       objectReference: {fileID: 1039408839}
-    - target: {fileID: 6172835715600082624, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: characterStats.baseHealth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6172835715600082624, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: onPlayerDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6172835715600082680, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -5565,26 +5533,6 @@ PrefabInstance:
     - target: {fileID: 6172835715600082682, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
       propertyPath: m_Name
       value: ' Player'
-      objectReference: {fileID: 0}
-    - target: {fileID: 6172835715600082683, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-    - target: {fileID: 6172835715600082686, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: m_AngularDrag
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6172835715600082686, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: m_Interpolate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6172835715600082686, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: m_GravityScale
-      value: 6.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6172835715600082686, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}

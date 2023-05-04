@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _game.Scripts
+namespace _game.Scripts.Utility
 {
     /// <summary>
     /// Simple non-lazy singleton implementation for MonoBehaviours that ensures that there is only one instance of the class

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _game.Scripts.Dev
+namespace _game.Scripts.Player
 {
     public class CharacterController2D : MonoBehaviour
     {

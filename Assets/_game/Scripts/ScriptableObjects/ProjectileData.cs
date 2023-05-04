@@ -6,7 +6,7 @@ namespace _game.Scripts.ScriptableObjects
     public class ProjectileData : ScriptableObject
     {
         [SerializeField] private int id;
-        [SerializeField] private string spellName;
+        [SerializeField] private string projectileName;
         [SerializeField] private string description;
         [SerializeField] private float speed;
         [SerializeField] private float timeToLive;
@@ -17,7 +17,7 @@ namespace _game.Scripts.ScriptableObjects
 
 
         public int Id => id;
-        public string SpellName => spellName;
+        public string ProjectileName => projectileName;
         public string Description => description;
         public float Speed => speed; public float TimeToLive => timeToLive;
         public float Damage => damage;

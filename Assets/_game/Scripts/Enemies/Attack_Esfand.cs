@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using _game.Scripts.Managers;
+using _game.Scripts.Player;
 using UnityEngine;
-using Managers;
-
 public class Attack_Esfand : MonoBehaviour
 {
     [SerializeField] float jumpHeight;

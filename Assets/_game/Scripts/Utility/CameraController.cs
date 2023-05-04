@@ -5,7 +5,7 @@
 
 using UnityEngine;
 
-namespace _game.Scripts
+namespace _game.Scripts.Utility
 {
     public class CameraController : MonoBehaviour
     {

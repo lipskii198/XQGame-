@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using _game.Scripts.Enemies.Core;
+using _game.Scripts.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace _game.Scripts.Managers
+namespace _game.Scripts.Player
 {
     public class PlayerManager : MonoBehaviour
     {

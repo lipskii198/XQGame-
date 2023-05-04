@@ -2,9 +2,9 @@ using System;
 using _game.Scripts.Managers;
 using UnityEngine;
 
-namespace _game.Scripts
+namespace _game.Scripts.Player
 {
-    [Obsolete("Replaced by Dev/CharacterController2D Soon™")]
+    [Obsolete("Replaced by Dev/CharacterController2D", true)]
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float wallJumpCooldown;
