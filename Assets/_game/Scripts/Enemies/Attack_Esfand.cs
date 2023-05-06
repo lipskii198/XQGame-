@@ -25,6 +25,13 @@ public class Attack_Esfand : MonoBehaviour
     private float time;
     private float startY;
     private bool meleeAttack;
+    private int i;
+
+
+    [Header("boulder spawn logic")]
+    [SerializeField] BoxCollider2D boulderSpawnArea;
+    [SerializeField] int boulderSpawned;
+    [SerializeField] GameObject boulderPrefab;
 
     private void Awake()
     {
@@ -42,6 +49,7 @@ public class Attack_Esfand : MonoBehaviour
         time += Time.deltaTime;
         isGrounded = Physics2D.OverlapBox(groundCheck.position, boxSize, 0, groundLayer);
         canAttack = Physics2D.OverlapBox(groundCheck.position, hitSize, 0, playerLayer);
+        SpawnBoulders();
 
 
 
@@ -97,5 +105,13 @@ public class Attack_Esfand : MonoBehaviour
         }
             
 
+    }
+    private void SpawnBoulders()
+    {
+        for (i = 0; i < boulderSpawned; i++)
+        {
+            var randomX = Random.Range(boulderSpawnArea.bounds.min.x, boulderSpawnArea.bounds.max.x);
+            var boulder = Object.Instantiate(boulderPrefab, new Vector3(randomX, boulderSpawnArea.bounds.min.y), Quaternion.identity);
+        }
     }
 }
