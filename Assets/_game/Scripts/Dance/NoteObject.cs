@@ -21,7 +21,7 @@ public class NoteObject : MonoBehaviour
             if (canBePressed)
             {
                 gameObject.SetActive(false);
-                Debug.Log("pressed in time!");
+                DanceGameManager.instance.NoteHit();
             }
         }
     }
@@ -38,6 +38,7 @@ public class NoteObject : MonoBehaviour
         if (other.tag == "Activator")
         {
             canBePressed = false;
+            DanceGameManager.instance.NoteMissed(); //Means they didn't misclick, but completely missed hitting the note.
         }
     }
 }
