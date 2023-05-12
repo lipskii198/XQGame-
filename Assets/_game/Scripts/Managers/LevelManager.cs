@@ -29,6 +29,7 @@ namespace _game.Scripts.Managers
         private void SetCurrentLevelData(string levelName)
         {
             currentLevelData = Resources.Load<LevelData>($"ScriptableObjects/Levels/LD_{levelName}");
+            Debug.Log($"ScriptableObjects/Levels/LD_{levelName}");
         }
         
         private void OnLevelLoaded()

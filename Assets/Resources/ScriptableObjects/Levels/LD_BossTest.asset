@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LD_AntsLevel
   m_EditorClassIdentifier: 
   id: 0
-  levelName: AntsLevel
-  levelNumber: 2
-  isBossLevel: 0
-  isWaveLevel: 1
+  levelName: BossTest
+  levelNumber: 3
+  isBossLevel: 1
+  isWaveLevel: 0
