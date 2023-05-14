@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66d819691b504e558bbcc95b358dfe02, type: 3}
   m_Name: EsfandData
   m_EditorClassIdentifier: 
-  id: 0
+  id: 460
+  health: -1
+  damage: -1
+  movementSpeed: -1
+  attackSpeed: -1
+  attackRange: -1
+  detectionRange: -1
   bossName: Esfand
   phasesAmount: 2
   phasesHealthThreshold: 6400000032000000

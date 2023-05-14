@@ -1,4 +1,5 @@
 using System.Collections;
+using _game.Scripts.Enemies;
 using _game.Scripts.Enemies.Core;
 using _game.Scripts.Managers;
 using _game.Scripts.Player;
@@ -25,27 +26,36 @@ namespace _game.Scripts
         // Update is called once per frame
         void Update()
         {
-            //if it hits we dont do anything otherwise it keeps moving 
             if (hit) return;
             float movementSpeed = projectileData.Speed * Time.deltaTime*direction;
             transform.Translate(movementSpeed, 0, 0);
         }
-        //if it hits something it explodes 
+        
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (hit) return;
+
+            if (collision.CompareTag("Enemy") || collision.CompareTag("EnemyBoss"))
+            {
+                if (collision.GetComponent<EnemyBase<EnemyData>>().IsDead)
+                {
+                    IgnoreCollisionWithTarget(collision);
+                    return;
+                }
+            }
+            
             hit = true;
             anim.SetTrigger("explosion");
+            
             switch (collision.tag)
             {
                 // Player -> PlayerManager.TakeDamage
                 // Enemy -> EnemyManager.TakeDamage
             
                 case "Enemy":
-                    var enemy = collision.GetComponent<EnemyBase>();
+                    var enemy = collision.GetComponent<EnemyBase<EnemyData>>();
                     enemy.TakeDamage(projectileData.Damage);
-                    LevelManager.Instance.GetPlayer.GetComponent<PlayerManager>().SetTarget(enemy);
-                    GameManager.Instance.OnPlayerEnterCombat();
+                    LevelManager.Instance.GetPlayer.GetComponent<PlayerManager>().SetTarget(collision.gameObject);
                     break;
                 case "Player":
                     collision.GetComponent<PlayerManager>().TakeDamage(projectileData.Damage);
@@ -55,6 +65,12 @@ namespace _game.Scripts
             }
             boxCollider.enabled = false;
         }
+        
+        private void IgnoreCollisionWithTarget(Collider2D target)
+        {
+            Physics2D.IgnoreCollision(boxCollider, target);
+        }
+        
         public void SetDirection(float _direction, ProjectileData projectileData)
         {
             this.projectileData = projectileData;
@@ -63,6 +79,7 @@ namespace _game.Scripts
             hit = false;
             transform.Translate((Vector3.forward * this.projectileData.Speed) * Time.deltaTime); 
             boxCollider.enabled = true;
+            
         }
 
         public void Deactivate()

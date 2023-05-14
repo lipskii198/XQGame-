@@ -27,7 +27,6 @@ namespace _game.Scripts.Managers
         public LevelManager GetLevelManager => levelManager;
         private void Start()
         {
-            waveManager = GetComponent<WaveManager>();
             levelManager = GetComponent<LevelManager>();
         }
         
@@ -65,7 +64,10 @@ namespace _game.Scripts.Managers
         {
             if (!isInLevel) return;
             isInLevel = false;
-            Debug.Log("Level unloaded");
+            Debug.Log("Cleaning up level data");
+            waveManager.Reset();
+            waveManager.enabled = false;
+            levelManager.Reset();
         }
     }
 }

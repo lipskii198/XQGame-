@@ -59,9 +59,13 @@ public class Attack_Esfand : MonoBehaviour
         }
         if (landing() && canAttack)
         {
-            player.GetComponent<PlayerManager>().TakeDamage(damage);
-            playerRB.AddForce(knockBack, ForceMode2D.Impulse);
-            
+            canAttack = false;
+            player.GetComponent<PlayerManager>().TakeDamage(damage, true);
+            playerRB.AddForce((player.position - transform.position).normalized * 1000f, ForceMode2D.Impulse);
+
+            Debug.Log($"Player - {player.position} Boss - {transform.position} = {(player.position - transform.position).normalized}");
+            Debug.Log($"Player - {player.position} Boss - {transform.position} = {(player.position - transform.position).normalized * 1000f}");
+
         }
 
         if(time>attackCooldown&& meleeAttack)
@@ -75,16 +79,8 @@ public class Attack_Esfand : MonoBehaviour
     {
         float distanceFromPlayer = player.position.x - transform.position.x;
         bossRB.AddForce(new Vector2(distanceFromPlayer, jumpHeight), ForceMode2D.Impulse);
+        player.GetComponent<PlayerManager>().SetTarget(gameObject);
 
-    }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawCube(groundCheck.position, boxSize);
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube(groundCheck.position, hitSize);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawCube(enemyCheck.position, meleeSize);
     }
     private bool landing()
     {

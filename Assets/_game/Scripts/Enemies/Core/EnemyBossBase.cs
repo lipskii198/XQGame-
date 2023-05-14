@@ -5,40 +5,30 @@ using UnityEngine;
 
 namespace _game.Scripts.Enemies.Core
 {
-    public abstract class EnemyBossBase : MonoBehaviour //TODO: Inheriting from EnemyBase is too much of headache but refactor later
+    public abstract class EnemyBossBase : EnemyBase<EnemyBossData>
     {
         [SerializeField] protected int currentPhase = 1;
-        [SerializeField] protected float currentHealth;
-        [SerializeField] protected float timeSinceLastAttack;
-        [SerializeField] protected bool isFollowingPlayer;
-        [SerializeField] protected EnemyBossData bossData;
-
-        
-        protected Transform playerTransform;
-        protected Animator animator;
-        protected Rigidbody2D rb;
-        
-        protected virtual void Awake()
+        protected override void Awake()
         {
-            playerTransform = GameObject.FindWithTag("Player").transform;
-            animator = GetComponent<Animator>();
-            rb = GetComponent<Rigidbody2D>();
-            currentPhase = 1;
-            currentHealth = GetCurrentHealthThreshold();
+            base.Awake();
         }
 
-        protected void Update()
+        protected override void Update()
         {
+            isGrounded = Physics2D.OverlapCircle(transform.position, groundCheckRadius, groundLayer);
+
+            
             if (currentHealth <= 0)
             {
-                Die();
+                Debug.Log("oh no im dead");
+                //Die();
                 return;
             }
 
-            if (currentPhase >= bossData.PhasesAmount)
+            if (currentPhase >= enemyData.PhasesAmount)
             {
-                Debug.Log("42069");
-                Die();
+                //Debug.Log("42069");
+                //Die();
                 return;
             }
 
@@ -65,32 +55,33 @@ namespace _game.Scripts.Enemies.Core
             {
                 if (!isFollowingPlayer)
                 {
-                    Patrol(); // Do we want the boss to patrol?
+                    Idle();
                 }
                 else
                 {
-                    //ChasePlayer(AiTarget.Player);
+                    ChasePlayer();
                 }
             }
+            
         }
 
 
-        protected virtual void Attack()
+        protected override void Attack()
         {
             animator.SetTrigger("Attack");
             playerTransform.GetComponent<PlayerManager>().TakeDamage(GetCurrentDamage());
             animator.SetBool("IsMoving", false);
         }
 
-        protected virtual void Patrol()
+        protected override void Patrol()
         {
-            //TODO: Implement patrolling behavior for bosses
+            // Boss doesn't patrol
         }
 
         protected virtual void TakeDamage(float damage)
         {
             currentHealth -= damage;
-            if (currentPhase < bossData.PhasesAmount - 1 && currentHealth <= GetCurrentHealthThreshold())
+            if (currentPhase < enemyData.PhasesAmount - 1 && currentHealth <= GetCurrentHealthThreshold())
             {
                 currentPhase++;
                 currentHealth = GetCurrentHealthThreshold();
@@ -102,44 +93,16 @@ namespace _game.Scripts.Enemies.Core
             }
         }
 
-        protected virtual void Die()
-        {
-            animator.SetBool("IsDead", true);
-            Destroy(gameObject, 2f);
-        }
-        
-        
-        protected float GetDistanceToPlayer()
-        {
-            var playerPosition = playerTransform.position;
-            return Vector2.Distance(playerPosition, transform.position);
-        }
-        
-        
-        protected int GetCurrentHealthThreshold()
-        {
-            return bossData.PhasesHealthThreshold[currentPhase - 1];
-        }
 
-        protected int GetCurrentMovementSpeed()
-        {
-            return bossData.PhasesMovementSpeed[currentPhase - 1];
-        }
+        protected int GetCurrentHealthThreshold() => enemyData.PhasesHealthThreshold[currentPhase - 1];
 
-        protected float GetCurrentAttackCooldown()
-        {
-            return bossData.PhasesAttackCooldown[currentPhase - 1];
-        }
+        protected int GetCurrentMovementSpeed() =>  enemyData.PhasesMovementSpeed[currentPhase - 1];
 
-        protected int GetCurrentAttackRange()
-        {
-            return bossData.PhasesAttackRange[currentPhase - 1];
-        }
+        protected float GetCurrentAttackCooldown() => enemyData.PhasesAttackCooldown[currentPhase - 1];
 
-        protected int GetCurrentDamage()
-        {
-            return bossData.PhasesDamage[currentPhase - 1];
-        }
+        protected int GetCurrentAttackRange() => enemyData.PhasesAttackRange[currentPhase - 1];
+
+        protected int GetCurrentDamage() => enemyData.PhasesDamage[currentPhase - 1];
         
     }
 }

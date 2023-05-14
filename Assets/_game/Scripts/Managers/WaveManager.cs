@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using _game.Scripts.Enemies.Core;
@@ -51,7 +52,8 @@ namespace _game.Scripts.Managers
                 spawnPoints.Add(SpawnPointParent.GetChild(i));
             }
         
-            parentHolder = GameObject.Find("UICanvas").transform;
+            if (parentHolder == null)
+                parentHolder = GameObject.Find("HUD").transform;
 
             var waveHud = Instantiate(waveHUDPrefab, parentHolder);
         
@@ -88,7 +90,7 @@ namespace _game.Scripts.Managers
                 {
                     var spawnPointIndex = UnityEngine.Random.Range(0, spawnPoints.Count);
                     var enemy = Instantiate(waveSpawnData.EnemiesPrefabs[i], spawnPoints[spawnPointIndex].position, Quaternion.identity);
-                    enemy.GetComponentInChildren<EnemyBase>().onDeath.AddListener(OnEnemyDeath);
+                    enemy.GetComponentInChildren<EnemyBase<EnemyData>>().onDeath.AddListener(OnEnemyDeath);
                     currentEnemyCount++;
                 }
             }
@@ -99,8 +101,8 @@ namespace _game.Scripts.Managers
             currentEnemyCount--;
         
             // TODO: check if wave is spawning before spawning new wave
-            /*if (currentEnemyCount <= 0)
-            StartCoroutine(BeginWaveSpawn());*/
+            if (currentEnemyCount <= 0 && !isWaveSpawning)
+                StartCoroutine(BeginWaveSpawn());
         
         }
     
@@ -114,6 +116,17 @@ namespace _game.Scripts.Managers
             newWaveText.enabled = true;
             yield return new WaitForSeconds(textDisplayTime);
             newWaveText.enabled = false;
+        }
+
+        public void Reset()
+        {
+            currentWave = 0;
+            currentEnemyCount = 0;
+            isWaveSpawning = false;
+            waveSpawnData = null;
+            spawnPoints.Clear();
+            waveCounterText = null;
+            newWaveText = null;
         }
     }
 }

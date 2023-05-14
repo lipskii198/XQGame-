@@ -1,13 +1,16 @@
 ﻿using _game.Scripts.Enemies.Core;
+using _game.Scripts.ScriptableObjects;
 using UnityEngine;
 
-namespace _game.Scripts.Enemies
+namespace _game.Scripts.Enemies.NormalEnemies
 {
-    public class AntEnemy : EnemyBase
+    public class AntEnemy : EnemyBase<EnemyData>
     {
         protected override void Awake()
         {
             base.Awake();
+            currentHealth = enemyData.Health;
+            parentHolder = transform.parent;  
             isFollowingPlayer = true;
             isFacingRight = true;
         }

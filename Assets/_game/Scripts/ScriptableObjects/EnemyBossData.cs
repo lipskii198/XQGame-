@@ -3,9 +3,8 @@
 namespace _game.Scripts.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "EnemyBossData", menuName = "ScriptableObjects/EnemyBossData", order = 0)]
-    public class EnemyBossData : ScriptableObject
+    public class EnemyBossData : EnemyBaseData
     {
-        [SerializeField] private int id;
         [SerializeField] private string bossName;
         [SerializeField] private int phasesAmount;
         [SerializeField] private int[] phasesHealthThreshold;
@@ -14,7 +13,6 @@ namespace _game.Scripts.ScriptableObjects
         [SerializeField] private int[] phasesAttackRange;
         [SerializeField] private int[] phasesDamage;
 
-        public int Id => id;
         public string BossName => bossName;
         public int PhasesAmount => phasesAmount;
         public int[] PhasesHealthThreshold => phasesHealthThreshold;

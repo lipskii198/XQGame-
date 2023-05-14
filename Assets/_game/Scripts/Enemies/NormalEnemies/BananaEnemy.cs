@@ -4,9 +4,9 @@ using _game.Scripts.ObjectPooling;
 using _game.Scripts.ScriptableObjects;
 using UnityEngine;
 
-namespace _game.Scripts.Enemies
+namespace _game.Scripts.Enemies.NormalEnemies
 {
-    public class BananaEnemy : EnemyBase
+    public class BananaEnemy : EnemyBase<EnemyData>
     {
         [SerializeField] private ProjectileData projectileData;
         [SerializeField] private Transform patrolPointHolder;
@@ -15,6 +15,13 @@ namespace _game.Scripts.Enemies
         [SerializeField] private int currentPatrolIndex;
         [SerializeField] private Transform firePoint;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            currentHealth = enemyData.Health;
+            parentHolder = transform.parent;  
+        }
+
         private void Start()
         {
             foreach (var patrolPoint in patrolPointHolder.GetComponentsInChildren<Transform>())
@@ -22,7 +29,6 @@ namespace _game.Scripts.Enemies
                 if (patrolPoint == patrolPointHolder.transform) continue;
                 patrolPoints.Add(patrolPoint);
             }
-            
             isFacingRight = false;
         }
 
@@ -51,9 +57,8 @@ namespace _game.Scripts.Enemies
             base.Attack();
             var projectile = ObjectPoolManager.Instance.GetPooledObject("EnemyProjectile");
             projectile.transform.position = firePoint.position;
-            projectile.GetComponent<Projectile>().SetDirection(-transform.localScale.x, projectileData);
-            
+            projectile.GetComponent<Projectile>().SetDirection(-transform.localScale.x, projectileData); 
         }
-        
     }
+    
 }
