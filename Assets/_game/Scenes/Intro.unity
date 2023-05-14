@@ -784,7 +784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6172835715600082680, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.36
+      value: 5.33
       objectReference: {fileID: 0}
     - target: {fileID: 6172835715600082680, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1230,6 +1230,8 @@ MonoBehaviour:
   snappy: 0
   forceMultiplier: 1000
   player: {fileID: 1055592478}
+  defaultCamSize: 20
+  maxCamSize: 50
 --- !u!50 &1785335883
 Rigidbody2D:
   serializedVersion: 4

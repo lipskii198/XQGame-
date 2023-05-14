@@ -18,6 +18,11 @@ namespace _game.Scripts.Utility
         public float forceMultiplier = 1000f;
         public Transform player;
         private Vector2 delta;
+
+        public float defaultCamSize = 10f;
+        public float maxCamSize = 20f;
+
+        Camera m_MainCamera;
         // Start is called before the first frame update
         void Start()
         {
@@ -27,6 +32,9 @@ namespace _game.Scripts.Utility
             rb.drag = 10;
 
             rb.freezeRotation = true;
+
+            m_MainCamera = Camera.main;
+            //defaultCamSize /= 2f;
 
         }
 
@@ -47,11 +55,21 @@ namespace _game.Scripts.Utility
                 rb.simulated = true;
 
                 camPos = this.transform.position;
+                
 
                 //Use physics to move camera, giving it a more dynamic and smooth feeling
                 //The main concept behind how this works is simply applying a force to the camera so that it gets closer to the player
                 //The farther the camera from the player, the stronger the force applied to the camera
                 delta = new Vector2(camPos.x - player.position.x, camPos.y - player.position.y + yOffset);
+
+                //Increase camera size if it can't catch up quickly enough e.g. falling great heights
+                //Since I'm not lerping, this can be kinda stuttery. Idk if I care enough about that now
+                if (Mathf.Abs(camPos.y-player.position.y) > m_MainCamera.orthographicSize*0.9) {
+                    if (m_MainCamera.orthographicSize < maxCamSize) m_MainCamera.orthographicSize += (camPos.y - player.position.y)*Time.deltaTime;
+                } else if (m_MainCamera.orthographicSize > defaultCamSize) {
+                    m_MainCamera.orthographicSize -= 10f*Time.deltaTime;
+                    Debug.Log("reducing cam size");
+                }
 
 
 
