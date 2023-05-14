@@ -1,4 +1,5 @@
-﻿using _game.Scripts.Utility;
+﻿using _game.Scripts.Enemies.Core;
+using _game.Scripts.Utility;
 using UnityEngine;
 
 namespace _game.Scripts.Managers
