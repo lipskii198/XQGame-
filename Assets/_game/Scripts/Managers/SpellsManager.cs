@@ -16,6 +16,7 @@ namespace _game.Scripts.Managers
         {
             spells = new Dictionary<string, ProjectileData>();
             AddSpell("Fireball", Resources.Load<ProjectileData>("ScriptableObjects/Spells/Fireball"));
+            currentProjectile = spells["Fireball"];
         }
 
         public void Cast(string spellName)

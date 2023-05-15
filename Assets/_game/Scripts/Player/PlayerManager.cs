@@ -13,6 +13,9 @@ namespace _game.Scripts.Player
         [SerializeField] private int coins;
         [SerializeField] private float currentHealth;
         [SerializeField] private bool isPlayerInvulnerable;
+        [SerializeField] private bool isPlayerDead;
+        [SerializeField] private bool isCastOnCooldown;
+        [SerializeField] private bool isBeingHit;
         [SerializeField] private CharacterStats characterStats;
         [Header("Health Settings")]
         [SerializeField] private GameObject healthBar;
@@ -28,10 +31,14 @@ namespace _game.Scripts.Player
         private SpriteRenderer spriteRenderer;
         private Rigidbody2D rb;
         private Animator animator;
-        private EnemyBase currentTarget;
+        private GameObject currentTarget;
         private SpellsManager spellsManager;
+        private CharacterController2D controller;
+
+        public bool IsBeingHit => isBeingHit;
         private void Start()
         {
+            controller = GetComponent<CharacterController2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
@@ -40,15 +47,15 @@ namespace _game.Scripts.Player
             
             onPlayerDeath.AddListener(GameManager.Instance.OnPlayerDeath);
         }
-
+        
         private void Update()
         {
-            //healthBarFill.fillAmount = currentHealth / GetCharacterStats.health;
-            //healthBarText.text = $"{currentHealth} / {GetCharacterStats.health}";
+            // healthBarFill.fillAmount = currentHealth / GetCharacterStats.health;
+            // healthBarText.text = $"{currentHealth} / {GetCharacterStats.health}";
             
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && !isCastOnCooldown)
             {
-                CastSpell();
+                StartCoroutine(CastSpell());
             }
         }
 
@@ -69,9 +76,11 @@ namespace _game.Scripts.Player
             onStatsUpdated.Invoke();
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, bool knockBack = false,  Vector2 knockBackDirection = default)
         {
             if (isPlayerInvulnerable) return;
+
+            isBeingHit = true;
             
             if (currentHealth - damage <= 0)
             {
@@ -82,7 +91,19 @@ namespace _game.Scripts.Player
             
             currentHealth -= damage;
             StartCoroutine(BeginInvulnerability());
+            
+            //BUG: player knocks down when hit during jump
+            // controller.IsGrounded until bug is fixed
+            if (knockBack && controller.IsGrounded && currentTarget != null) 
+            {
+                const int knockBackForce = 50;
+                rb.AddForce(-knockBackDirection.normalized * knockBackForce, ForceMode2D.Impulse);
+                Debug.Log("Knocked");
+            }
+
+            isBeingHit = false;
         }
+        
         
         public void Heal(float healAmount)
         {
@@ -111,15 +132,18 @@ namespace _game.Scripts.Player
             isPlayerInvulnerable = false;
         }
         
-        public void SetTarget(EnemyBase enemyBase)
+        public void SetTarget(GameObject targetEnemy)
         {
-            currentTarget = enemyBase;
+            currentTarget = targetEnemy;
         }
         
-        public void CastSpell()
+        public IEnumerator CastSpell()
         {
+            isCastOnCooldown = true;
             animator.SetTrigger("Attack");
             spellsManager.Cast("Fireball");
+            yield return new WaitForSeconds(spellsManager.GetCurrentProjectile.Cooldown);
+            isCastOnCooldown = false;
         }
     }
 }

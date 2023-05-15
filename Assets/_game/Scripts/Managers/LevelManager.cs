@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using _game.Scripts.ObjectPooling;
 using _game.Scripts.ScriptableObjects;
 using _game.Scripts.Utility;
@@ -64,6 +65,7 @@ namespace _game.Scripts.Managers
             Debug.Log($"Level unloaded: {currentLevelData.LevelName}");
             currentLevelData = null;
             ObjectPoolManager.Instance.ClearPooledObjects();
+            GameManager.Instance.OnLevelUnloaded();
         }
         
         private IEnumerator LoadLevelCoroutine(string levelName)
@@ -116,6 +118,11 @@ namespace _game.Scripts.Managers
         {
             Debug.Log("Fail level");
             failedLevelCount++;
+        }
+
+        public void Reset()
+        {
+            failedLevelCount = 0; 
         }
     }
 }

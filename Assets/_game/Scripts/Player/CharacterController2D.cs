@@ -21,6 +21,7 @@ namespace _game.Scripts.Player
         private float startCharge = 0.0f;
         private Rigidbody2D rb;
         private Animator animator;
+        private PlayerManager playerManager;
 
         private float _fallSpeadYDampingChangeThreshold;
 
@@ -39,6 +40,7 @@ namespace _game.Scripts.Player
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
             _fallSpeadYDampingChangeThreshold = CameraManager.instance._fallSpeadYDampingChangeThreshold;
+            playerManager = GetComponent<PlayerManager>();
         }
 
         private void Update()
@@ -93,6 +95,7 @@ namespace _game.Scripts.Player
             isGrounded = Physics2D.OverlapCircle(transform.position, groundCheckRadius, groundLayer);
 
             movementInput = Input.GetAxisRaw("Horizontal");
+            
             rb.velocity = new Vector2(movementInput * movementSpeed, rb.velocity.y);
             
             if ((movementInput > 0 && !isFacingRight) || (movementInput < 0 && isFacingRight))

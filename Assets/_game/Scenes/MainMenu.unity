@@ -682,7 +682,7 @@ MonoBehaviour:
   currentEnemyCount: 0
   textDisplayTime: 2.5
   isWaveSpawning: 0
-  waveSpawnData: {fileID: 11400000, guid: 14f4264b60d330246b5f440cd45974b2, type: 2}
+  waveSpawnData: {fileID: 0}
   waveHUDPrefab: {fileID: 4682038915188451823, guid: 45fea37427c760c499671598fc6edf07, type: 3}
   parentHolder: {fileID: 0}
   spawnPoints: []
