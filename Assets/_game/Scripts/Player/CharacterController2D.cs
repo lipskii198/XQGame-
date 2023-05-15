@@ -22,6 +22,8 @@ namespace _game.Scripts.Player
         private Rigidbody2D rb;
         private Animator animator;
 
+        private float _fallSpeadYDampingChangeThreshold;
+
         #region AnimatorHashes
 
         private static readonly int IsRunning = Animator.StringToHash("isRunning");
@@ -36,6 +38,7 @@ namespace _game.Scripts.Player
         {
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
+            _fallSpeadYDampingChangeThreshold = CameraManager.instance._fallSpeadYDampingChangeThreshold;
         }
 
         private void Update()
@@ -73,6 +76,16 @@ namespace _game.Scripts.Player
             }
             
             animator.SetBool(IsRunning, movementInput != 0);
+            if (rb.velocity.y < _fallSpeadYDampingChangeThreshold && !CameraManager.instance.isLerpingYDamping && !CameraManager.instance.lerpedFromPlayerFalling)
+            {
+                CameraManager.instance.LerpYDamping(true);
+            }
+
+            if (rb.velocity.y >= 0f && !CameraManager.instance.isLerpingYDamping && CameraManager.instance.lerpedFromPlayerFalling)
+            {
+                CameraManager.instance.lerpedFromPlayerFalling = false;
+                CameraManager.instance.LerpYDamping(false);
+            }
         }
 
         private void FixedUpdate()
