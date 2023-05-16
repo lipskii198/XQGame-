@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using _game.Scripts.Enemies.Core;
 using _game.Scripts.Player;
 using _game.Scripts.Utility;
-using Unity.Mathematics;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace _game.Scripts.Enemies.Bosses
