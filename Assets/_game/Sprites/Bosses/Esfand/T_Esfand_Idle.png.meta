@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d42bbd178b704504d93b52da49d258f3
+guid: cb92a930ced84724795ac81409ed94bb
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -115,7 +115,70 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: T_Esfand_Idle_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 208
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3b5453b9cbdea54bbda03e9ec67c446
+      internalID: -1445821382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: T_Esfand_Idle_1
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 0
+        width: 208
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 830f6213a21e4f94baa76355e70bff9f
+      internalID: -1818643309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: T_Esfand_Idle_2
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 0
+        width: 206
+        height: 201
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fec76e5be9623b4d8ed609f87e4c782
+      internalID: 1383534919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -126,7 +189,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      T_Esfand_Idle_1: -1818643309
+      T_Esfand_Idle_0: -1445821382
+      T_Esfand_Idle_2: 1383534919
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

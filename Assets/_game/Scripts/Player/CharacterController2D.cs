@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _game.Scripts.Managers;
+using UnityEngine;
 
 namespace _game.Scripts.Player
 {
@@ -39,7 +40,7 @@ namespace _game.Scripts.Player
         {
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
-            _fallSpeadYDampingChangeThreshold = CameraManager.instance._fallSpeadYDampingChangeThreshold;
+            _fallSpeadYDampingChangeThreshold = CameraManager.Instance._fallSpeadYDampingChangeThreshold;
             playerManager = GetComponent<PlayerManager>();
         }
 
@@ -78,15 +79,15 @@ namespace _game.Scripts.Player
             }
             
             animator.SetBool(IsRunning, movementInput != 0);
-            if (rb.velocity.y < _fallSpeadYDampingChangeThreshold && !CameraManager.instance.isLerpingYDamping && !CameraManager.instance.lerpedFromPlayerFalling)
+            if (rb.velocity.y < _fallSpeadYDampingChangeThreshold && !CameraManager.Instance.isLerpingYDamping && !CameraManager.Instance.lerpedFromPlayerFalling)
             {
-                CameraManager.instance.LerpYDamping(true);
+                CameraManager.Instance.LerpYDamping(true);
             }
 
-            if (rb.velocity.y >= 0f && !CameraManager.instance.isLerpingYDamping && CameraManager.instance.lerpedFromPlayerFalling)
+            if (rb.velocity.y >= 0f && !CameraManager.Instance.isLerpingYDamping && CameraManager.Instance.lerpedFromPlayerFalling)
             {
-                CameraManager.instance.lerpedFromPlayerFalling = false;
-                CameraManager.instance.LerpYDamping(false);
+                CameraManager.Instance.lerpedFromPlayerFalling = false;
+                CameraManager.Instance.LerpYDamping(false);
             }
         }
 

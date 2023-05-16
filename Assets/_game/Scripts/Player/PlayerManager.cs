@@ -16,6 +16,7 @@ namespace _game.Scripts.Player
         [SerializeField] private bool isPlayerDead;
         [SerializeField] private bool isCastOnCooldown;
         [SerializeField] private bool isBeingHit;
+        [SerializeField] private bool isKnockBackEnabled = false; // Too many issues with knockback, disabling for now
         [SerializeField] private CharacterStats characterStats;
         [Header("Health Settings")]
         [SerializeField] private GameObject healthBar;
@@ -46,12 +47,14 @@ namespace _game.Scripts.Player
             UpdateStats(recalculateStats:true);
             
             onPlayerDeath.AddListener(GameManager.Instance.OnPlayerDeath);
+            
+            healthBar.SetActive(true);
         }
         
         private void Update()
         {
-            // healthBarFill.fillAmount = currentHealth / GetCharacterStats.health;
-            // healthBarText.text = $"{currentHealth} / {GetCharacterStats.health}";
+            healthBarFill.fillAmount = currentHealth / GetCharacterStats.health;
+            healthBarText.text = $"{currentHealth} / {GetCharacterStats.health}";
             
             if (Input.GetButtonDown("Fire1") && !isCastOnCooldown)
             {
@@ -94,7 +97,7 @@ namespace _game.Scripts.Player
             
             //BUG: player knocks down when hit during jump
             // controller.IsGrounded until bug is fixed
-            if (knockBack && controller.IsGrounded && currentTarget != null) 
+            if (isKnockBackEnabled && knockBack && controller.IsGrounded) 
             {
                 const int knockBackForce = 50;
                 rb.AddForce(-knockBackDirection.normalized * knockBackForce, ForceMode2D.Impulse);

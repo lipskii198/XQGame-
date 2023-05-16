@@ -7,7 +7,7 @@ namespace _game.Scripts.Enemies.Core
 {
     public abstract class EnemyBossBase : EnemyBase<EnemyBossData>
     {
-        [SerializeField] protected int currentPhase = 1;
+        [SerializeField] protected int currentPhase = 0;
         protected override void Awake()
         {
             base.Awake();
@@ -25,9 +25,9 @@ namespace _game.Scripts.Enemies.Core
                 return;
             }
 
-            if (currentPhase >= enemyData.PhasesAmount)
+            if (currentPhase > enemyData.PhasesAmount)
             {
-                //Debug.Log("42069");
+                Debug.Log("42069");
                 //Die();
                 return;
             }
@@ -36,7 +36,10 @@ namespace _game.Scripts.Enemies.Core
             {
                 currentPhase++;
             }
+        }
 
+        protected override void FixedUpdate()
+        {
             if (GetDistanceToPlayer() <= GetCurrentAttackRange())
             {
                 if (timeSinceLastAttack >= GetCurrentAttackCooldown())
@@ -62,7 +65,6 @@ namespace _game.Scripts.Enemies.Core
                     ChasePlayer();
                 }
             }
-            
         }
 
 
@@ -78,7 +80,7 @@ namespace _game.Scripts.Enemies.Core
             // Boss doesn't patrol
         }
 
-        protected virtual void TakeDamage(float damage)
+        public override void TakeDamage(float damage)
         {
             currentHealth -= damage;
             if (currentPhase < enemyData.PhasesAmount - 1 && currentHealth <= GetCurrentHealthThreshold())

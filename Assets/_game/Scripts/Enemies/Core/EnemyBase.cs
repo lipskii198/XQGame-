@@ -150,6 +150,14 @@ namespace _game.Scripts.Enemies.Core
                 Flip();
             }
         }
+        
+        public void FacePlayer()
+        {
+            var playerPosition = playerTransform.position;
+            var position = transform.position;
+            var direction = playerPosition - position;
+            FaceDirection(direction);
+        }
 
         protected void Flip()
         {
