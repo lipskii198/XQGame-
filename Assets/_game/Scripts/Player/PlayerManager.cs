@@ -1,10 +1,7 @@
 ﻿using System.Collections;
-using _game.Scripts.Enemies.Core;
 using _game.Scripts.Managers;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace _game.Scripts.Player
 {
@@ -18,10 +15,6 @@ namespace _game.Scripts.Player
         [SerializeField] private bool isBeingHit;
         [SerializeField] private bool isKnockBackEnabled = false; // Too many issues with knockback, disabling for now
         [SerializeField] private CharacterStats characterStats;
-        [Header("Health Settings")]
-        [SerializeField] private GameObject healthBar;
-        [SerializeField] private Image healthBarFill;
-        [SerializeField] private TMP_Text healthBarText;
         [Header("Invulnerability Settings")]
         [SerializeField] private float invulnerabilityTime;
         [SerializeField] private float invulnerabilityFlashTime;
@@ -37,6 +30,7 @@ namespace _game.Scripts.Player
         private CharacterController2D controller;
 
         public bool IsBeingHit => isBeingHit;
+        public float CurrentHealth => currentHealth;
         private void Start()
         {
             controller = GetComponent<CharacterController2D>();
@@ -47,15 +41,10 @@ namespace _game.Scripts.Player
             UpdateStats(recalculateStats:true);
             
             onPlayerDeath.AddListener(GameManager.Instance.OnPlayerDeath);
-            
-            healthBar.SetActive(true);
         }
         
         private void Update()
         {
-            healthBarFill.fillAmount = currentHealth / GetCharacterStats.health;
-            healthBarText.text = $"{currentHealth} / {GetCharacterStats.health}";
-            
             if (Input.GetButtonDown("Fire1") && !isCastOnCooldown)
             {
                 StartCoroutine(CastSpell());
@@ -115,7 +104,6 @@ namespace _game.Scripts.Player
         
         public void Die()
         {
-            healthBar.SetActive(false);
             onPlayerDeath.Invoke();
         }
 

@@ -9,6 +9,7 @@ TagManager:
   - EnemyProjectile
   - EnemyBoss
   - SpawnPoints
+  - WaveManager
   layers:
   - Default
   - TransparentFX

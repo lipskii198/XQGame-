@@ -31,7 +31,7 @@ namespace _game.Scripts.Utility
         }
 
         // Override the awake method to make sure the instance is set - Possibly problematic?
-        private void Awake()
+        protected virtual void Awake()
         {
             // Check if the instance of the class is null
             if (_instance == null)

@@ -1,10 +1,9 @@
-﻿using _game.Scripts.Enemies.Core;
+﻿using _game.Scripts.ObjectPooling;
 using _game.Scripts.Utility;
 using UnityEngine;
 
 namespace _game.Scripts.Managers
 {
-    
     /*
      * TODO: Rework this system into something like this:
      * LevelManager - Handles level data, level loading, level unloading (Basically scene management)
@@ -20,55 +19,70 @@ namespace _game.Scripts.Managers
         [SerializeField] private bool isInCutscene;
         [SerializeField] private bool isPlayerDead;
         [SerializeField] private GameObject playerPrefab;
-        
-        private WaveManager waveManager;
-        private LevelManager levelManager;
+
+        private HudManager hudManager;
         public GameObject GetPlayerPrefab => playerPrefab;
-        public WaveManager GetWaveManager => waveManager;
-        public LevelManager GetLevelManager => levelManager;
-        private void Start()
-        {
-            levelManager = GetComponent<LevelManager>();
-        }
+        public WaveManager GetWaveManager { get; private set; }
+
+        public LevelManager GetLevelManager { get; private set; }
+
+        public HudManager GetHudManager => hudManager;
         
+
+        protected override void Awake()
+        {
+            base.Awake();
+            GetLevelManager = GetComponent<LevelManager>();
+            hudManager = GetComponent<HudManager>();
+        }
+
 
         public void OnPlayerDeath()
         {
             if (isPlayerDead) return;
             isPlayerDead = true;
             Debug.Log("Player died");
-            levelManager.GetPlayer.SetActive(false);
+            GetLevelManager.GetPlayer.SetActive(false);
+            hudManager.ShowPlayerDeathScreen();
+            GetLevelManager.UnloadLevel(mainMenu: true);
+            
+            isPlayerDead = false;
         }
-        
+
         public void OnPlayerEnterCombat()
         {
             if (isInCombat) return;
             isInCombat = true;
             Debug.Log("Player entered combat");
         }
-        
+
         public void OnPlayerExitCombat()
         {
             if (!isInCombat) return;
             isInCombat = false;
             Debug.Log("Player exited combat");
         }
-        
+
         public void OnLevelLoaded()
         {
             if (isInLevel) return;
             isInLevel = true;
             Debug.Log("Level loaded");
+            if (GetLevelManager.GetCurrentLevelData.IsWaveLevel)
+            {
+                GetWaveManager = GameObject.FindWithTag("WaveManager").GetComponent<WaveManager>();
+            }
+            ObjectPoolManager.Instance.Initialize();
+            hudManager.Initialize();
         }
-        
+
         public void OnLevelUnloaded()
         {
-            if (!isInLevel) return;
             isInLevel = false;
             Debug.Log("Cleaning up level data");
-            waveManager.Reset();
-            waveManager.enabled = false;
-            levelManager.Reset();
+            GetLevelManager.Reset();
+            hudManager.Reset();
         }
+        
     }
 }

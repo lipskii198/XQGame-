@@ -3,43 +3,46 @@ using System.Collections;
 using _game.Scripts.ObjectPooling;
 using _game.Scripts.ScriptableObjects;
 using _game.Scripts.Utility;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace _game.Scripts.Managers
 {
-    public class LevelManager : LazySingletonMono<LevelManager>
+    public class LevelManager : MonoBehaviour
     {
         [SerializeField] private int failedLevelCount;
         [SerializeField] private bool isLevelLoaded;
         [SerializeField] private GameObject player;
         [SerializeField] private LevelData currentLevelData;
-        
+
         private WaveManager waveManager;
         private AsyncOperation levelLoadingOperation;
-        
+
         public LevelData GetCurrentLevelData => currentLevelData;
         public AsyncOperation GetLevelLoadingOperation => levelLoadingOperation;
         public GameObject GetPlayer => player;
+        public bool IsLevelLoaded => isLevelLoaded;
         
-        private void Start()
-        {
-            waveManager = GetComponent<WaveManager>();
-        }
-        
+
         private void SetCurrentLevelData(string levelName)
         {
             currentLevelData = Resources.Load<LevelData>($"ScriptableObjects/Levels/LD_{levelName}");
             Debug.Log($"ScriptableObjects/Levels/LD_{levelName}");
         }
-        
+
         private void OnLevelLoaded()
         {
             /*var spawnPoint = GameObject.FindWithTag("Respawn");
             player = Instantiate(GameManager.Instance.GetPlayerPrefab, spawnPoint.transform.position, Quaternion.identity);*/
-            isLevelLoaded = true;
+            
             Debug.Log($"Level loaded: {currentLevelData.LevelName}");
             Debug.Log($"Current level: {currentLevelData.LevelName} - {currentLevelData.LevelNumber} - IsBossLevel: {currentLevelData.IsBossLevel} - IsWaveLevel: {currentLevelData.IsWaveLevel}");
+            
+            player = GameObject.FindWithTag("Player");
+            
+            GameManager.Instance.OnLevelLoaded();
+            isLevelLoaded = true;
 
             if (currentLevelData.IsBossLevel)
             {
@@ -48,16 +51,19 @@ namespace _game.Scripts.Managers
             else if (currentLevelData.IsWaveLevel)
             {
                 Debug.Log("Wave level");
-                waveManager.enabled = true;
+                GameManager.Instance.GetWaveManager.enabled = true;
             }
             else
             {
                 Debug.Log("Normal level");
             }
-            
-            player = GameObject.FindWithTag("Player");
-            GameManager.Instance.OnLevelLoaded();
-            ObjectPoolManager.Instance.Initialize();
+
+
+        }
+
+        private IEnumerator DelayedLevelLoad()
+        {
+            yield return new WaitForSeconds(1f);
         }
         
         private void OnLevelUnloaded()
@@ -67,7 +73,7 @@ namespace _game.Scripts.Managers
             ObjectPoolManager.Instance.ClearPooledObjects();
             GameManager.Instance.OnLevelUnloaded();
         }
-        
+
         private IEnumerator LoadLevelCoroutine(string levelName)
         {
             SetCurrentLevelData(levelName);
@@ -76,44 +82,47 @@ namespace _game.Scripts.Managers
                 Debug.LogError("Current level data is null");
                 yield break;
             }
-            
+
             isLevelLoaded = false;
             levelLoadingOperation = SceneManager.LoadSceneAsync(currentLevelData.LevelName);
             while (!levelLoadingOperation.isDone)
             {
                 yield return null;
             }
-            
+
             OnLevelLoaded();
         }
-        
+
         public void LoadLevel(string levelName)
         {
             if (isLevelLoaded)
             {
-                StartCoroutine(UnloadLevelCoroutine());
+               UnloadLevel();
             }
-            
+
             StartCoroutine(LoadLevelCoroutine(levelName));
         }
         
-        private IEnumerator UnloadLevelCoroutine()
+        public void UnloadLevel(bool mainMenu = false)
         {
+            if (!isLevelLoaded) return;
             isLevelLoaded = false;
-            levelLoadingOperation = SceneManager.UnloadSceneAsync(currentLevelData.LevelName);
-            while (!levelLoadingOperation.isDone)
-            {
-                yield return null;
-            }
-
+            levelLoadingOperation = SceneManager.UnloadSceneAsync(currentLevelData.LevelName, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
             OnLevelUnloaded();
+            
+            if (mainMenu)
+            {
+                SceneManager.LoadSceneAsync("MainMenu");
+            }
+            
         }
+        
 
         public void WinLevel()
         {
             Debug.Log("Win level");
         }
-        
+
         public void FailLevel()
         {
             Debug.Log("Fail level");
@@ -122,7 +131,7 @@ namespace _game.Scripts.Managers
 
         public void Reset()
         {
-            failedLevelCount = 0; 
+            failedLevelCount = 0;
         }
     }
 }

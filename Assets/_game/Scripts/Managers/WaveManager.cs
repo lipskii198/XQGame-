@@ -16,27 +16,27 @@ namespace _game.Scripts.Managers
         [SerializeField] private float textDisplayTime;
         [SerializeField] private bool isWaveSpawning;
         [SerializeField] private WaveSpawnData waveSpawnData;
-        [SerializeField] private GameObject waveHUDPrefab;
-        [SerializeField] private Transform parentHolder;
         [SerializeField] private List<Transform> spawnPoints;
-    
+        [SerializeField] private GameObject waveHUD;
+        [SerializeField] private TMP_Text waveCounterText;
+        [SerializeField] private TMP_Text newWaveText;
+
         private LevelManager levelManager;
-        private TMP_Text waveCounterText;
-        private TMP_Text newWaveText;
+
         private static Transform SpawnPointParent => GameObject.Find("SpawnPoints").transform;
+
         private void Awake()
         {
             isWaveSpawning = false;
-            spawnPoints = new List<Transform>();
         }
 
         private void Start()
         {
-            levelManager = GetComponent<LevelManager>();
+            levelManager = GameManager.Instance.GetLevelManager;
 
-            waveSpawnData = Resources.Load<WaveSpawnData>($"ScriptableObjects/Waves/WD_{levelManager.GetCurrentLevelData.LevelName}");
 
-            if (waveSpawnData == null || waveSpawnData.EnemiesPrefabs.Count == 0  || !EnsureEnemyPrefabIsValid()){
+            if (waveSpawnData == null || waveSpawnData.EnemiesPrefabs.Count == 0 || !EnsureEnemyPrefabIsValid())
+            {
                 Debug.LogError($"WaveSpawnData ({waveSpawnData.name}) is invalid");
                 this.enabled = false;
             }
@@ -46,31 +46,19 @@ namespace _game.Scripts.Managers
                 Debug.LogError($"SpawnPointParent ({levelManager.GetCurrentLevelData.LevelName}) is invalid");
                 this.enabled = false;
             }
-        
-            for (var i = 0; i < SpawnPointParent.childCount; i++)
-            {
-                spawnPoints.Add(SpawnPointParent.GetChild(i));
-            }
-        
-            if (parentHolder == null)
-                parentHolder = GameObject.Find("HUD").transform;
 
-            var waveHud = Instantiate(waveHUDPrefab, parentHolder);
-        
-            waveCounterText = waveHud.transform.Find("WaveCounterText").GetComponent<TMP_Text>();
-            newWaveText = waveHud.transform.Find("NewWaveText").GetComponent<TMP_Text>();
-
+            waveHUD.SetActive(true);
         }
 
         private void Update()
         {
             if (!isWaveSpawning && currentWave < waveSpawnData.MaxWaves)
                 StartCoroutine(BeginWaveSpawn());
-        
+
             if (currentWave >= waveSpawnData.MaxWaves)
                 levelManager.WinLevel();
         }
-    
+
         private IEnumerator BeginWaveSpawn()
         {
             SpawnWave();
@@ -80,7 +68,7 @@ namespace _game.Scripts.Managers
             yield return new WaitForSeconds(waveSpawnData.SpawnDelay);
             isWaveSpawning = false;
         }
-    
+
         private void SpawnWave()
         {
             StartCoroutine(DisplayNewWaveText());
@@ -89,28 +77,28 @@ namespace _game.Scripts.Managers
                 for (var j = 0; j < waveSpawnData.EnemiesPerWave[i]; j++)
                 {
                     var spawnPointIndex = UnityEngine.Random.Range(0, spawnPoints.Count);
-                    var enemy = Instantiate(waveSpawnData.EnemiesPrefabs[i], spawnPoints[spawnPointIndex].position, Quaternion.identity);
+                    var enemy = Instantiate(waveSpawnData.EnemiesPrefabs[i], spawnPoints[spawnPointIndex].position,
+                        Quaternion.identity);
                     enemy.GetComponentInChildren<EnemyBase<EnemyData>>().onDeath.AddListener(OnEnemyDeath);
                     currentEnemyCount++;
                 }
             }
         }
-    
+
         private void OnEnemyDeath()
         {
             currentEnemyCount--;
-        
+
             // TODO: check if wave is spawning before spawning new wave
             if (currentEnemyCount <= 0 && !isWaveSpawning)
                 StartCoroutine(BeginWaveSpawn());
-        
         }
-    
+
         private bool EnsureEnemyPrefabIsValid()
         {
             return waveSpawnData.EnemiesPrefabs.All(enemy => enemy != null);
         }
-    
+
         private IEnumerator DisplayNewWaveText()
         {
             newWaveText.enabled = true;

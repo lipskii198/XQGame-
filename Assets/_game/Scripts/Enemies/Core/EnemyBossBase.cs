@@ -8,6 +8,8 @@ namespace _game.Scripts.Enemies.Core
     public abstract class EnemyBossBase : EnemyBase<EnemyBossData>
     {
         [SerializeField] protected int currentPhase = 0;
+        [SerializeField] protected bool isFightTriggered = false;
+
         protected override void Awake()
         {
             base.Awake();
@@ -17,7 +19,7 @@ namespace _game.Scripts.Enemies.Core
         {
             isGrounded = Physics2D.OverlapCircle(transform.position, groundCheckRadius, groundLayer);
 
-            
+
             if (currentHealth <= 0)
             {
                 Debug.Log("oh no im dead");
@@ -98,13 +100,12 @@ namespace _game.Scripts.Enemies.Core
 
         protected int GetCurrentHealthThreshold() => enemyData.PhasesHealthThreshold[currentPhase - 1];
 
-        protected int GetCurrentMovementSpeed() =>  enemyData.PhasesMovementSpeed[currentPhase - 1];
+        protected int GetCurrentMovementSpeed() => enemyData.PhasesMovementSpeed[currentPhase - 1];
 
         protected float GetCurrentAttackCooldown() => enemyData.PhasesAttackCooldown[currentPhase - 1];
 
         protected int GetCurrentAttackRange() => enemyData.PhasesAttackRange[currentPhase - 1];
 
         protected int GetCurrentDamage() => enemyData.PhasesDamage[currentPhase - 1];
-        
     }
 }
