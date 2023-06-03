@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using _game.Scripts.ObjectPooling;
+using _game.Scripts.Player;
 using _game.Scripts.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,7 @@ namespace _game.Scripts.Managers
         [SerializeField] private LevelData currentLevelData;
 
         private WaveManager waveManager;
+        private PlayerManager playerManager;
         private AsyncOperation levelLoadingOperation;
 
         public LevelData GetCurrentLevelData => currentLevelData;
@@ -35,7 +37,7 @@ namespace _game.Scripts.Managers
             Debug.Log($"Level Loaded: LevelName#Id: {currentLevelData.LevelName}#{currentLevelData.Id} - IsBossLevel: {currentLevelData.IsBossLevel} - IsWaveLevel: {currentLevelData.IsWaveLevel}");
             
             player = GameObject.FindWithTag("Player");
-            
+            playerManager = player.GetComponent<PlayerManager>();
             GameManager.Instance.OnLevelLoaded();
             isLevelLoaded = true;
 
@@ -53,6 +55,12 @@ namespace _game.Scripts.Managers
                 Debug.Log("Normal level");
             }
 
+            switch (currentLevelData.LevelName)
+            {
+                case "AntsLevel":
+                    playerManager.SetStateMachine(PlayerManager.StateMachines.AntsLevel);
+                    break;
+            }
 
         }
 

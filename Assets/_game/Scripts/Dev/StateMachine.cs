@@ -1,11 +1,14 @@
-﻿namespace _game.Scripts.Dev
+﻿using UnityEngine;
+
+namespace _game.Scripts.Dev
 {
-    public abstract class StateMachine
+    public class StateMachine : MonoBehaviour
     {
         private StateBase currentStateBase;
 
         public void SetState(StateBase stateBase)
         {
+            Debug.Log($"[StateMachine] SetState: {stateBase.GetType().Name}");
             currentStateBase?.OnExit();
             currentStateBase = stateBase;
             currentStateBase.OnEnter();
@@ -16,14 +19,14 @@
             return currentStateBase;
         }
 
-        private void Update()
+        public void Tick()
         {
-            currentStateBase?.Update();
+            currentStateBase?.Tick();
         }
 
-        private void FixedUpdate()
+        public void FixedTick()
         {
-            currentStateBase?.FixedUpdate();
+            currentStateBase?.FixedTick();
         }
     }
 
@@ -38,7 +41,7 @@
 
         public abstract void OnEnter();
         public abstract void OnExit();
-        public abstract void Update();
-        public abstract void FixedUpdate();
+        public abstract void Tick();
+        public abstract void FixedTick();
     }
 }

@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 6172835715600082624}
   - component: {fileID: 6172835715600082627}
   - component: {fileID: -2157551863546276987}
+  - component: {fileID: 4141609457534783841}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -218,9 +219,6 @@ MonoBehaviour:
     baseJumpForce: 5
     baseAttackSpeed: 0.3
     baseHealth: 10
-  healthBar: {fileID: 0}
-  healthBarFill: {fileID: 0}
-  healthBarText: {fileID: 0}
   invulnerabilityTime: 1
   invulnerabilityFlashTime: 5
   onStatsUpdated:
@@ -290,3 +288,15 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &4141609457534783841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6172835715600082682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b25f9e4ca8945969ce00eef12ba060d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

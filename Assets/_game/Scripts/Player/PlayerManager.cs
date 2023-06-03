@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using _game.Scripts.Dev;
 using _game.Scripts.Managers;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,34 +23,35 @@ namespace _game.Scripts.Player
         [Header("Events")] 
         public UnityEvent onStatsUpdated;
         public UnityEvent onPlayerDeath;
+        public StateMachine stateMachine;
         
         private SpriteRenderer spriteRenderer;
         private Rigidbody2D rb;
         private Animator animator;
         private GameObject currentTarget;
-        private SpellsManager spellsManager;
         private CharacterController2D controller;
-
         public bool IsBeingHit => isBeingHit;
         public float CurrentHealth => currentHealth;
         private void Start()
         {
+            stateMachine = GetComponent<StateMachine>();
             controller = GetComponent<CharacterController2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
-            spellsManager = GetComponent<SpellsManager>();
             UpdateStats(recalculateStats:true);
             
             onPlayerDeath.AddListener(GameManager.Instance.OnPlayerDeath);
         }
-        
+
         private void Update()
         {
-            if (Input.GetButtonDown("Fire1") && !isCastOnCooldown)
-            {
-                StartCoroutine(CastSpell());
-            }
+            stateMachine.Tick();
+        }
+
+        private void FixedUpdate()
+        {
+            stateMachine.FixedTick();
         }
 
         public void UpdateCoins(int coinAmount)
@@ -96,7 +99,6 @@ namespace _game.Scripts.Player
             isBeingHit = false;
         }
         
-        
         public void Heal(float healAmount)
         {
             currentHealth += healAmount;
@@ -128,13 +130,64 @@ namespace _game.Scripts.Player
             currentTarget = targetEnemy;
         }
         
-        public IEnumerator CastSpell()
+        public void SetStateMachine(StateMachines stateMachine)
         {
-            isCastOnCooldown = true;
-            animator.SetTrigger("Attack");
-            spellsManager.Cast("Fireball");
-            yield return new WaitForSeconds(spellsManager.GetCurrentProjectile.Cooldown);
-            isCastOnCooldown = false;
+            switch (stateMachine)
+            {
+                case StateMachines.AntsLevel:
+                    this.stateMachine.SetState(new AntsLevel(this.stateMachine));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(stateMachine), stateMachine, null);
+            }
+        }
+
+        public enum StateMachines
+        {
+            AntsLevel,
+        }
+
+        
+        private class AntsLevel : StateBase
+        {
+            private SpellsManager spellsManager;
+            private PlayerManager playerManager;
+            public AntsLevel(StateMachine stateMachine) : base(stateMachine)
+            {
+            }
+            
+            public IEnumerator CastSpell()
+            {
+                playerManager.isCastOnCooldown = true;
+                playerManager.animator.SetTrigger("Attack");
+                spellsManager.Cast("Fireball");
+                yield return new WaitForSeconds(spellsManager.GetCurrentProjectile.Cooldown);
+                playerManager.isCastOnCooldown = false;
+            }
+
+            public override void OnEnter()
+            {
+                spellsManager = stateMachine.GetComponent<SpellsManager>();
+                playerManager = stateMachine.GetComponent<PlayerManager>();
+            }
+
+            public override void OnExit()
+            {
+                
+            }
+
+            public override void Tick()
+            {
+                if (Input.GetButtonDown("Fire1") && !playerManager.isCastOnCooldown)
+                {
+                    playerManager.StartCoroutine(CastSpell());
+                }
+            }
+
+            public override void FixedTick()
+            {
+                
+            }
         }
     }
 }
