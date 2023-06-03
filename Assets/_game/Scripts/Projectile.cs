@@ -1,5 +1,4 @@
 using System.Collections;
-using _game.Scripts.Enemies;
 using _game.Scripts.Enemies.Core;
 using _game.Scripts.Managers;
 using _game.Scripts.Player;
@@ -14,21 +13,18 @@ namespace _game.Scripts
         private bool hit;
         private ProjectileData projectileData;
         private BoxCollider2D boxCollider;
-
         private Animator anim;
-        // Start is called before the first frame update
 
-        void Awake()
+        private void Awake()
         {
             boxCollider = GetComponent<BoxCollider2D>();
             anim = GetComponent<Animator>();
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (hit) return;
-            float movementSpeed = projectileData.Speed * Time.deltaTime * direction;
+            var movementSpeed = projectileData.Speed * Time.deltaTime * direction;
             transform.Translate(movementSpeed, 0, 0);
         }
 
@@ -36,9 +32,17 @@ namespace _game.Scripts
         {
             if (hit) return;
 
-            if (collision.CompareTag("Enemy") || collision.CompareTag("EnemyBoss"))
+            if (collision.CompareTag("Enemy"))
             {
                 if (collision.GetComponent<EnemyBase<EnemyData>>().IsDead)
+                {
+                    IgnoreCollisionWithTarget(collision);
+                    return;
+                }
+            }
+            else if (collision.CompareTag("EnemyBoss"))
+            {
+                if (collision.GetComponent<EnemyBase<EnemyBossData>>().IsDead)
                 {
                     IgnoreCollisionWithTarget(collision);
                     return;
@@ -50,9 +54,6 @@ namespace _game.Scripts
 
             switch (collision.tag)
             {
-                // Player -> PlayerManager.TakeDamage
-                // Enemy -> EnemyManager.TakeDamage
-
                 case "Enemy":
                     var enemy = collision.GetComponent<EnemyBase<EnemyData>>();
                     enemy.TakeDamage(projectileData.Damage);
@@ -74,13 +75,13 @@ namespace _game.Scripts
             Physics2D.IgnoreCollision(boxCollider, target);
         }
 
-        public void SetDirection(float _direction, ProjectileData projectileData)
+        public void SetDirection(float direction, ProjectileData projectileData)
         {
             this.projectileData = projectileData;
-            direction = _direction;
+            this.direction = direction;
             gameObject.SetActive(true);
             hit = false;
-            transform.Translate((Vector3.forward * this.projectileData.Speed) * Time.deltaTime);
+            transform.Translate(Vector3.forward * (this.projectileData.Speed * Time.deltaTime));
             boxCollider.enabled = true;
         }
 
@@ -94,10 +95,9 @@ namespace _game.Scripts
             StartCoroutine(DestroyAfterSeconds(projectileData.TimeToLive));
         }
 
-
         private IEnumerator DestroyAfterSeconds(float value)
         {
-            yield return new WaitForSeconds(value); // Wait for [value] seconds without blocking the current thread
+            yield return new WaitForSeconds(value);
             Deactivate();
         }
     }

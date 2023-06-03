@@ -25,8 +25,9 @@ namespace _game.Scripts.Managers
 
         private float normYPanAmount;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
 
             for (int i = 0; i < _allVirtualCameras.Length; i++) {
                 if (_allVirtualCameras[i].enabled) {

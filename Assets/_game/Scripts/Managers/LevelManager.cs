@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using _game.Scripts.ObjectPooling;
 using _game.Scripts.ScriptableObjects;
-using _game.Scripts.Utility;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,7 +25,6 @@ namespace _game.Scripts.Managers
         private void SetCurrentLevelData(string levelName)
         {
             currentLevelData = Resources.Load<LevelData>($"ScriptableObjects/Levels/LD_{levelName}");
-            Debug.Log($"ScriptableObjects/Levels/LD_{levelName}");
         }
 
         private void OnLevelLoaded()
@@ -36,8 +32,7 @@ namespace _game.Scripts.Managers
             /*var spawnPoint = GameObject.FindWithTag("Respawn");
             player = Instantiate(GameManager.Instance.GetPlayerPrefab, spawnPoint.transform.position, Quaternion.identity);*/
             
-            Debug.Log($"Level loaded: {currentLevelData.LevelName}");
-            Debug.Log($"Current level: {currentLevelData.LevelName} - {currentLevelData.LevelNumber} - IsBossLevel: {currentLevelData.IsBossLevel} - IsWaveLevel: {currentLevelData.IsWaveLevel}");
+            Debug.Log($"Level Loaded: LevelName#Id: {currentLevelData.LevelName}#{currentLevelData.Id} - IsBossLevel: {currentLevelData.IsBossLevel} - IsWaveLevel: {currentLevelData.IsWaveLevel}");
             
             player = GameObject.FindWithTag("Player");
             
@@ -61,11 +56,6 @@ namespace _game.Scripts.Managers
 
         }
 
-        private IEnumerator DelayedLevelLoad()
-        {
-            yield return new WaitForSeconds(1f);
-        }
-        
         private void OnLevelUnloaded()
         {
             Debug.Log($"Level unloaded: {currentLevelData.LevelName}");
