@@ -23,6 +23,8 @@ namespace _game.Scripts.Managers
         private void Start()
         {
             levelManager = GameManager.Instance.GetLevelManager;
+            
+            Debug.Log($"[{GetType().Name}] Initialized");
         }
         
         private void Update()

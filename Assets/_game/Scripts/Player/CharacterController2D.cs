@@ -1,4 +1,5 @@
 ﻿using _game.Scripts.Managers;
+using _game.Scripts.Utility;
 using UnityEngine;
 
 namespace _game.Scripts.Player
@@ -35,6 +36,14 @@ namespace _game.Scripts.Player
         public bool IsGrounded => isGrounded;
         public bool IsJumping => isJumping;
         public bool IsDoubleJumping => isDoubleJumping;
+        
+        // Block lists
+        public Blocklist MovementBlocklist { get; } = new();
+        public Blocklist JumpBlocklist { get; } = new();
+        
+        // Block lists objects
+        private object movementBlocker;
+        private object jumpBlocker;
 
         private void Start()
         {
@@ -42,6 +51,8 @@ namespace _game.Scripts.Player
             animator = GetComponent<Animator>();
             _fallSpeadYDampingChangeThreshold = CameraManager.Instance._fallSpeadYDampingChangeThreshold;
             playerManager = GetComponent<PlayerManager>();
+
+            Debug.Log($"[{GetType().Name}] Initialized");
         }
 
         private void Update()
@@ -67,14 +78,10 @@ namespace _game.Scripts.Player
                 if (isGrounded)
                 {
                     Jump();
-                    isJumping = true;
-                    canDoubleJump = true;
                 }
                 else if (canDoubleJump)
                 {
                     Jump(isDoubleJump:true);
-                    isDoubleJumping = true;
-                    canDoubleJump = false;
                 }
             }
             
@@ -97,7 +104,8 @@ namespace _game.Scripts.Player
 
             movementInput = Input.GetAxisRaw("Horizontal");
             
-            rb.velocity = new Vector2(movementInput * movementSpeed, rb.velocity.y);
+            if (!MovementBlocklist.IsBlocked())
+                rb.velocity = new Vector2(movementInput * movementSpeed, rb.velocity.y);
             
             if ((movementInput > 0 && !isFacingRight) || (movementInput < 0 && isFacingRight))
             {
@@ -116,7 +124,20 @@ namespace _game.Scripts.Player
 
         private void Jump(bool isDoubleJump = false)
         {
+            if (JumpBlocklist.IsBlocked()) return;
+            
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            
+            if (isDoubleJump)
+            {
+                canDoubleJump = false;
+                isDoubleJumping = true;
+            }
+            else
+            {
+                isJumping = true;
+                canDoubleJump = true;
+            }
         }
     }
 }

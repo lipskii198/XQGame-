@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using _game.Scripts.Dev;
 using _game.Scripts.Managers;
+using _game.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,7 +13,6 @@ namespace _game.Scripts.Player
         [SerializeField] private float currentHealth;
         [SerializeField] private bool isPlayerInvulnerable;
         [SerializeField] private bool isPlayerDead;
-        [SerializeField] private bool isCastOnCooldown;
         [SerializeField] private bool isBeingHit;
         [SerializeField] private bool isKnockBackEnabled = false; // Too many issues with knockback, disabling for now
         [SerializeField] private CharacterStats characterStats;
@@ -23,15 +22,26 @@ namespace _game.Scripts.Player
         [Header("Events")] 
         public UnityEvent onStatsUpdated;
         public UnityEvent onPlayerDeath;
-        public StateMachine stateMachine;
         
         private SpriteRenderer spriteRenderer;
         private Rigidbody2D rb;
         private Animator animator;
         private GameObject currentTarget;
         private CharacterController2D controller;
+        private StateMachine stateMachine;
         public bool IsBeingHit => isBeingHit;
         public float CurrentHealth => currentHealth;
+        
+        
+        // Block lists
+        public Blocklist AttackBlocklist { get; } = new();
+
+        // Block lists objects
+        private object attackBlocker;
+
+        // Animation Hashes
+        private static readonly int Attack = Animator.StringToHash("Attack");
+
         private void Start()
         {
             stateMachine = GetComponent<StateMachine>();
@@ -42,6 +52,8 @@ namespace _game.Scripts.Player
             UpdateStats(recalculateStats:true);
             
             onPlayerDeath.AddListener(GameManager.Instance.OnPlayerDeath);
+            
+            Debug.Log($"[{GetType().Name}] Initialized");
         }
 
         private void Update()
@@ -76,6 +88,7 @@ namespace _game.Scripts.Player
             if (isPlayerInvulnerable) return;
 
             isBeingHit = true;
+            controller.JumpBlocklist.RegisterBlocker(attackBlocker = new object());
             
             if (currentHealth - damage <= 0)
             {
@@ -97,6 +110,7 @@ namespace _game.Scripts.Player
             }
 
             isBeingHit = false;
+            controller.JumpBlocklist.UnregisterBlocker(attackBlocker);
         }
         
         public void Heal(float healAmount)
@@ -130,39 +144,47 @@ namespace _game.Scripts.Player
             currentTarget = targetEnemy;
         }
         
-        public void SetStateMachine(StateMachines stateMachine)
+        public void SetStateMachine(LevelAbilities levelAbilities)
         {
-            switch (stateMachine)
+            switch (levelAbilities)
             {
-                case StateMachines.AntsLevel:
-                    this.stateMachine.SetState(new AntsLevel(this.stateMachine));
+                case LevelAbilities.AntsLevel:
+                    stateMachine.SetState(new AntsLevelAbilities(stateMachine));
+                    break;
+                case LevelAbilities.EsfandLevel:
+                    stateMachine.SetState(new AntsLevelAbilities(stateMachine));
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(stateMachine), stateMachine, null);
+                    throw new ArgumentOutOfRangeException(nameof(levelAbilities), levelAbilities, null);
             }
         }
 
-        public enum StateMachines
+        public enum LevelAbilities
         {
             AntsLevel,
+            EsfandLevel,
         }
 
         
-        private class AntsLevel : StateBase
+        private class AntsLevelAbilities : StateBase
         {
             private SpellsManager spellsManager;
             private PlayerManager playerManager;
-            public AntsLevel(StateMachine stateMachine) : base(stateMachine)
+            
+            private object castFireBallBlocker;
+            public AntsLevelAbilities(StateMachine stateMachine) : base(stateMachine, "AntsLevelAbilities")
             {
             }
             
-            public IEnumerator CastSpell()
+            public IEnumerator CastFireBall()
             {
-                playerManager.isCastOnCooldown = true;
-                playerManager.animator.SetTrigger("Attack");
+                playerManager.AttackBlocklist.RegisterBlocker(castFireBallBlocker);
+                playerManager.animator.SetTrigger(Attack);
+                
                 spellsManager.Cast("Fireball");
+                
                 yield return new WaitForSeconds(spellsManager.GetCurrentProjectile.Cooldown);
-                playerManager.isCastOnCooldown = false;
+                playerManager.AttackBlocklist.UnregisterBlocker(castFireBallBlocker);
             }
 
             public override void OnEnter()
@@ -178,9 +200,9 @@ namespace _game.Scripts.Player
 
             public override void Tick()
             {
-                if (Input.GetButtonDown("Fire1") && !playerManager.isCastOnCooldown)
+                if (Input.GetButtonDown("Fire1") && !playerManager.AttackBlocklist.IsBlocked())
                 {
-                    playerManager.StartCoroutine(CastSpell());
+                    playerManager.StartCoroutine(CastFireBall());
                 }
             }
 

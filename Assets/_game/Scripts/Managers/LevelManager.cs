@@ -58,7 +58,7 @@ namespace _game.Scripts.Managers
             switch (currentLevelData.LevelName)
             {
                 case "AntsLevel":
-                    playerManager.SetStateMachine(PlayerManager.StateMachines.AntsLevel);
+                    playerManager.SetStateMachine(PlayerManager.LevelAbilities.AntsLevel);
                     break;
             }
 

@@ -17,6 +17,8 @@ namespace _game.Scripts.Managers
             spells = new Dictionary<string, ProjectileData>();
             AddSpell("Fireball", Resources.Load<ProjectileData>("ScriptableObjects/Spells/Fireball"));
             currentProjectile = spells["Fireball"];
+            
+            Debug.Log($"[{GetType().Name}] Initialized");
         }
 
         public void Cast(string spellName)
@@ -45,12 +47,6 @@ namespace _game.Scripts.Managers
             spells.Add(spellName, projectile);
         }
 
-        public void ChangeSpell(ProjectileData projectile)
-        {
-            currentProjectile = projectile;
-            //ObjectPoolManager.Instance.UpdatePooledObjects(currentProjectile.SpellPrefab);
-        }
-    
         public ProjectileData GetCurrentProjectile => currentProjectile;
     }
 }

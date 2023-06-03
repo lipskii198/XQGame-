@@ -48,6 +48,8 @@ namespace _game.Scripts.Managers
             }
 
             waveHUD.SetActive(true);
+            
+            Debug.Log($"[{GetType().Name}] Initialized");
         }
 
         private void Update()

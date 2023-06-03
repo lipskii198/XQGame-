@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _game.Scripts.Dev
+namespace _game.Scripts.Utility
 {
     public class StateMachine : MonoBehaviour
     {
@@ -10,8 +10,11 @@ namespace _game.Scripts.Dev
         {
             Debug.Log($"[StateMachine] SetState: {stateBase.GetType().Name}");
             currentStateBase?.OnExit();
+            if (currentStateBase != null)
+                Debug.Log($"[StateMachine] SetState: {currentStateBase?.GetType().Name} exited");
             currentStateBase = stateBase;
             currentStateBase.OnEnter();
+            Debug.Log($"[StateMachine] SetState: {stateBase.GetType().Name} entered");
         }
 
         public StateBase GetState()
@@ -32,11 +35,15 @@ namespace _game.Scripts.Dev
 
     public abstract class StateBase
     {
-        protected StateMachine stateMachine;
+        private string name;
+        protected readonly StateMachine stateMachine;
 
-        protected StateBase(StateMachine stateMachine)
+        protected StateBase(StateMachine stateMachine, string name)
         {
             this.stateMachine = stateMachine;
+            this.name = name;
+            
+            Debug.Log($"[{GetType().Name}] State initialized");
         }
 
         public abstract void OnEnter();

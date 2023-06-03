@@ -22,11 +22,8 @@ namespace _game.Scripts.Enemies.Bosses
         // Block lists
         public Blocklist JumpBlocklist { get; } = new();
 
-        public Blocklist AttackBlocklist { get; } = new();
-
         // Block lists objects
         private object jumpBlocker;
-        private object attackBlocker;
 
         protected override void Awake()
         {
@@ -83,7 +80,7 @@ namespace _game.Scripts.Enemies.Bosses
 
         protected override void ChasePlayer() // Jump after player
         {
-            if (!isGrounded) return;
+            if (!isGrounded || MovementBlocklist.IsBlocked()) return;
             AttackBlocklist.RegisterBlocker(jumpBlocker);
             FacePlayer();
             isJumpAttack = true;
@@ -94,6 +91,7 @@ namespace _game.Scripts.Enemies.Bosses
 
         protected override void Attack()
         {
+            if(AttackBlocklist.IsBlocked()) return;
             JumpBlocklist.RegisterBlocker(attackBlocker);
             FacePlayer();
             animator.SetTrigger("Attack");

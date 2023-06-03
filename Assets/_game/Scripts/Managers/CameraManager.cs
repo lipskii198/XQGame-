@@ -37,6 +37,9 @@ namespace _game.Scripts.Managers
                 }
             }
             normYPanAmount = framingTransposer.m_YDamping;
+            
+            
+            Debug.Log($"[{GetType().Name}] Initialized");
         }
 
         #region lerp y damping

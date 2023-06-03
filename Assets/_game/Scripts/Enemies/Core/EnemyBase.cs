@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using _game.Scripts.ScriptableObjects;
+using _game.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -28,6 +29,14 @@ namespace _game.Scripts.Enemies.Core
 
         public bool IsDead => isDead;
         public UnityEvent onDeath = new();
+        
+        // Block lists
+        public Blocklist MovementBlocklist { get; } = new();
+        public Blocklist AttackBlocklist { get; } = new();
+
+        // Block lists objects
+        internal object attackBlocker;
+        internal object movementBlocker;
 
         protected virtual void Awake()
         {
@@ -88,12 +97,14 @@ namespace _game.Scripts.Enemies.Core
 
         protected virtual void Patrol()
         {
+            if (MovementBlocklist.IsBlocked()) return;
             animator.SetBool("IsMoving", true);
             //TODO: Implement patrol
         }
 
         protected virtual void ChasePlayer()
         {
+            if (MovementBlocklist.IsBlocked()) return;
             animator.SetBool("IsMoving", true);
             var playerPosition = playerTransform.position;
             var position = transform.position;
@@ -117,6 +128,7 @@ namespace _game.Scripts.Enemies.Core
 
         protected virtual void Attack()
         {
+            if (AttackBlocklist.IsBlocked()) return;
             animator.SetBool("IsMoving", false);
             animator.SetTrigger("Attack");
         }
