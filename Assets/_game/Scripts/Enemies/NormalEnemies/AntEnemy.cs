@@ -35,7 +35,6 @@ namespace _game.Scripts.Enemies.NormalEnemies
                 var direction = playerPosition - position;
                 FaceDirection(direction);
             }
-            
         }
     }
 }

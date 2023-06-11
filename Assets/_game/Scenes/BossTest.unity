@@ -2565,10 +2565,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6172835715600082624, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: onPlayerDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6172835715600082680, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -2616,14 +2612,6 @@ PrefabInstance:
     - target: {fileID: 6172835715600082682, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
       propertyPath: m_Name
       value: ' Player'
-      objectReference: {fileID: 0}
-    - target: {fileID: 6172835715600082682, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8208756587262446444, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5611ad2dbe4fc434080180cbad4b1049, type: 3}

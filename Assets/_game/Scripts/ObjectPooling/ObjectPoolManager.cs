@@ -20,9 +20,10 @@ namespace _game.Scripts.ObjectPooling
         public GameObject GetPooledObject(string objectTag)
         {
             // iterate through the list of pooled objects and check if the object is not active and has the same tag passed as a parameter
-            foreach (var poolItem in pooledObjects.Where(poolItem => !poolItem.activeInHierarchy && poolItem.CompareTag(objectTag)))
+            foreach (var poolItem in pooledObjects.Where(poolItem => !poolItem.activeInHierarchy && poolItem.CompareTag(objectTag) && !poolItem.activeSelf))
             {
                 // return the object if all is gucci
+                Debug.Log($"[{GetType().Name}] Returning pooled object {poolItem.name}");
                 return poolItem;
             }
 
@@ -30,6 +31,7 @@ namespace _game.Scripts.ObjectPooling
             foreach (var obj in from poolItem in itemsToPool where poolItem.objectToPool.CompareTag(objectTag) && poolItem.canGrow select Instantiate(poolItem.objectToPool, parent, true))
             {
                 // set the object to inactive, add it to the pooled objects list, and return it
+                Debug.Log($"[{GetType().Name}] Growing pool with {obj.name}");
                 obj.SetActive(false);
                 pooledObjects.Add(obj);
                 return obj;

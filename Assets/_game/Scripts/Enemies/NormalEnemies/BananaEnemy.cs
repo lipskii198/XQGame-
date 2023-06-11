@@ -57,7 +57,7 @@ namespace _game.Scripts.Enemies.NormalEnemies
             base.Attack();
             var projectile = ObjectPoolManager.Instance.GetPooledObject("EnemyProjectile");
             projectile.transform.position = firePoint.position;
-            projectile.GetComponent<Projectile>().SetDirection(-transform.localScale.x, projectileData); 
+            projectile.GetComponent<Projectile>().Cast(-transform.localScale.x, projectileData, gameObject); 
         }
     }
     

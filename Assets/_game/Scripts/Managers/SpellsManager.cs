@@ -34,7 +34,7 @@ namespace _game.Scripts.Managers
                 return;
             }
             spellObj.transform.position = projectileSpawnPoint.position;
-            spellObj.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x), spells[spellName]);
+            spellObj.GetComponent<Projectile>().Cast(Mathf.Sign(transform.localScale.x), spells[spellName], gameObject);
         }
         
         public void AddSpell(string spellName, ProjectileData projectile)

@@ -9,6 +9,8 @@ namespace _game.Scripts
 {
     public class Projectile : MonoBehaviour
     {
+        public GameObject owner;
+        
         private float direction;
         private bool hit;
         private ProjectileData projectileData;
@@ -20,6 +22,8 @@ namespace _game.Scripts
             boxCollider = GetComponent<BoxCollider2D>();
             anim = GetComponent<Animator>();
         }
+        
+        
 
         private void Update()
         {
@@ -32,41 +36,42 @@ namespace _game.Scripts
         {
             if (hit) return;
 
-            if (collision.CompareTag("Enemy"))
-            {
-                if (collision.GetComponent<EnemyBase<EnemyData>>().IsDead)
-                {
-                    IgnoreCollisionWithTarget(collision);
-                    return;
-                }
-            }
-            else if (collision.CompareTag("EnemyBoss"))
-            {
-                if (collision.GetComponent<EnemyBase<EnemyBossData>>().IsDead)
-                {
-                    IgnoreCollisionWithTarget(collision);
-                    return;
-                }
-            }
-
-            hit = true;
-            anim.SetTrigger("explosion");
-
             switch (collision.tag)
             {
                 case "Enemy":
+                    
+                    if (collision.GetComponent<EnemyBase<EnemyData>>().IsDead)
+                    {
+                        IgnoreCollisionWithTarget(collision);
+                        return;
+                    }
+                    
                     var enemy = collision.GetComponent<EnemyBase<EnemyData>>();
                     enemy.TakeDamage(projectileData.Damage);
                     GameManager.Instance.GetLevelManager.GetPlayer.GetComponent<PlayerManager>()
                         .SetTarget(collision.gameObject);
                     break;
+                
+                case "EnemyBoss":
+                    
+                    if (collision.GetComponent<EnemyBase<EnemyBossData>>().IsDead)
+                    {
+                        IgnoreCollisionWithTarget(collision);
+                        return;
+                    }
+                    
+                    var enemyBoss = collision.GetComponent<EnemyBase<EnemyBossData>>();
+                    enemyBoss.TakeDamage(projectileData.Damage);
+                    GameManager.Instance.GetLevelManager.GetPlayer.GetComponent<PlayerManager>()
+                        .SetTarget(collision.gameObject);
+                    break;
+                
                 case "Player":
                     collision.GetComponent<PlayerManager>().TakeDamage(projectileData.Damage);
                     break;
-                case "EnemyBoss":
-                    break;
             }
-
+            hit = true;
+            anim.SetTrigger("explosion");
             boxCollider.enabled = false;
         }
 
@@ -75,10 +80,11 @@ namespace _game.Scripts
             Physics2D.IgnoreCollision(boxCollider, target);
         }
 
-        public void SetDirection(float direction, ProjectileData projectileData)
+        public void Cast(float direction, ProjectileData projectileData, GameObject owner)
         {
             this.projectileData = projectileData;
             this.direction = direction;
+            this.owner = owner;
             gameObject.SetActive(true);
             hit = false;
             transform.Translate(Vector3.forward * (this.projectileData.Speed * Time.deltaTime));
@@ -92,6 +98,7 @@ namespace _game.Scripts
 
         private void OnEnable()
         {
+            IgnoreCollisionWithTarget(owner.GetComponent<Collider2D>());
             StartCoroutine(DestroyAfterSeconds(projectileData.TimeToLive));
         }
 
